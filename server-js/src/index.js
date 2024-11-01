@@ -17,7 +17,7 @@ const config = require("./config");
 //mongoose.set("strictQuery", true);
 
 mongoose
-    .connect(config.databaseURI, {
+    .connect(process.env.DATABASE_URI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     })

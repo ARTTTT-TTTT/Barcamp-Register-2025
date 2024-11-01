@@ -1,5 +1,4 @@
 const router = require("express").Router();
-const { default: mongoose } = require("mongoose");
 
 const TopicModel = require("../models/Topic");
 const config = require("../config");
@@ -140,3 +139,5 @@ router.get("/topics_admin", async (req, res) => {
 
     res.status(200).send({ topics_to_send: topics_to_send });
 });
+
+module.exports = router;
