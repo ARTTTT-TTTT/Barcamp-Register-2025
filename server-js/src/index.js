@@ -1,10 +1,11 @@
-const cookieSession = require("cookie-session");
+const session = require("express-session");
 const express = require("express");
 const cors = require("cors");
 const passport = require("passport");
 const mongoose = require("mongoose");
 const app = express();
 require("dotenv").config();
+require("./passport");
 
 //Routes
 const authRoute = require("./routes/authRoute");
@@ -25,10 +26,13 @@ mongoose
     .catch((err) => console.error("Error connected to Database:", err));
 
 app.use(
-    cookieSession({
-        name: "session",
-        keys: ["barcamp8"],
-        maxAge: 24 * 60 * 60 * 100,
+    session({
+        secret: "password",
+        resave: false,
+        saveUninitialized: false,
+        cookie: {
+            maxAge: 24 * 60 * 60 * 1000,
+        },
     })
 );
 
@@ -39,7 +43,7 @@ app.use("/api", express.static(__dirname));
 
 app.use(
     cors({
-        origin: process.env.PRODUCTION ? "*" : "http://localhost:3000",
+        origin: process.env.PRODUCTION ? "http://localhost:3000" : "http://localhost:3000",
         methods: "GET,POST,PUT,DELETE",
         credentials: true,
     })
