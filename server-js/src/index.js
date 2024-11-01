@@ -27,12 +27,10 @@ mongoose
 
 app.use(
     session({
-        secret: "password",
+        secret: "barcamp8", // Change this to a secure random string
         resave: false,
-        saveUninitialized: false,
-        cookie: {
-            maxAge: 24 * 60 * 60 * 1000,
-        },
+        saveUninitialized: true,
+        cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 24 hours
     })
 );
 
@@ -43,7 +41,7 @@ app.use("/api", express.static(__dirname));
 
 app.use(
     cors({
-        origin: process.env.PRODUCTION ? "http://localhost:3000" : "http://localhost:3000",
+        origin: process.env.PRODUCTION ? "*" : "http://localhost:3000",
         methods: "GET,POST,PUT,DELETE",
         credentials: true,
     })
