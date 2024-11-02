@@ -34,9 +34,11 @@ function App() {
     if (!!decrypt_user) {
       setUser(decrypt_user)
       backend.get(`/topics/?user=${decrypt_user}`).then(res => {
+        //console.log(res)
         if (res.data.Istime) {
           let me_vote = res.data.topics_to_send.filter(e => e.status)
           let not_vote = res.data.topics_to_send.filter(e => !e.status).sort(() => 0.5 - Math.random())
+          //console.log(not_vote)
           setData(me_vote.concat(not_vote))
           setPoint(res.data.topics_to_send.filter(e => e.status).length)
         } else {

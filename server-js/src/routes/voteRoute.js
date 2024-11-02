@@ -100,9 +100,10 @@ router.post("/voted", async (req, res) => {
 router.get("/topics", async (req, res) => {
     const user = req.query.user;
     const topics = await TopicModel.find({});
+    //console.log(topics)
     const topics_to_send = [];
-    const Istime = await mongoose.connection.db.collection("console").find().toArray();
-
+    const Istime = await mongoose.connection.db.collection("consoles").find().toArray();
+    //console.log(Istime[0]?.vote)
     if (Istime[0]?.vote) {
         for (let i = 0; i < topics.length; i++) {
             let userInVote = topics[i].votes.includes(user);
