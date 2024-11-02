@@ -39,11 +39,19 @@ app.use(passport.session());
 app.use(express.json());
 app.use("/api", express.static(__dirname));
 
+// app.use(
+//     cors({
+//         origin: process.env.PRODUCTION ? "*" : "http://localhost:3000",
+//         methods: "GET,POST,PUT,DELETE",
+//         credentials: true,
+//     })
+// );
+
 app.use(
     cors({
-        origin: process.env.PRODUCTION ? "*" : "http://localhost:3000",
-        methods: "GET,POST,PUT,DELETE",
-        credentials: true,
+        origin: process.env.PRODUCTION_URL ? process.env.ORIGIN_URL : "http://localhost:3000",
+        methods: ["GET", "POST", "PUT", "DELETE"],
+        credentials: true, // Allow credentials
     })
 );
 
