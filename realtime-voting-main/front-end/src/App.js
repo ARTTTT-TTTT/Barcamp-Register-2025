@@ -47,7 +47,7 @@ function App() {
         }
 
       })
-    } 
+    }
   }, [user])
 
   const [searchTerm, setSearchTerm] = useState('')
