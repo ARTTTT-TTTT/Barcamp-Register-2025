@@ -50,16 +50,17 @@ router.get("/login/success", (req, res) => {
 });
 
 router.get("/login/failed", (req, res) => {
-    res.redirect(CLIENT_URL);
+    res.redirect(`${CLIENT_URL}/register`); // เปลี่ยนเส้นทางไปหน้า register
 });
 
-router.get("/logout", (req, res, next) => {
-    req.logout((err) => {
+router.get("/logout", (req, res) => {
+    req.logOut((err) => {
         if (err) {
-            return next(err); // จัดการ error หากเกิดขึ้น
+            return res.status(500).json({ error: true, message: "Logout failed" });
         }
-        res.clearCookie("connect.sid", { path: "/" }); // ลบคุกกี้เซสชัน
-        res.redirect(CLIENT_URL); // เปลี่ยนเส้นทางผู้ใช้ไปยังหน้า Client
+
+        res.clearCookie("connect.sid", { path: "/" });
+        res.redirect(`${CLIENT_URL}/register`);
     });
 });
 
@@ -68,7 +69,7 @@ router.get("/google", passport.authenticate("google", { scope: ["profile", "emai
 router.get(
     "/google/callback",
     passport.authenticate("google", {
-        successRedirect: CLIENT_URL,
+        successRedirect: `${CLIENT_URL}/register/profile`,
         failureRedirect: "/auth/login/failed",
     })
 );

@@ -11,62 +11,68 @@ import AdminPage from "./Pages/AdminPage.jsx";
 import AdminConsole from "./Pages/admin/AdminConsole.jsx";
 
 const check_session = (user) => {
-  if (user.message === "No session.") {
-    window.location.href = "/register";
-  }
+    if (user.message === "No session.") {
+        window.location.href = "/register";
+    }
 };
 
 const router = createBrowserRouter(
-  [
-    {
-      path: "/",
-      element: <App />,
-      loader: async () => {
-        let user = await getUser();
-        let Console = await getConsole();
+    [
+        {
+            path: "/",
+            element: <App />,
+            loader: async () => {
+                let user = await getUser();
+                let Console = await getConsole();
 
-        return { user, Console };
-      },
-    },
-    {
-      path: "/form",
-      element: <FormPage />,
-      loader: async () => {
-        let user = await getUser();
-        let Console = await getConsole();
+                return { user, Console };
+            },
+        },
+        {
+            path: "/form",
+            element: <FormPage />,
+            loader: async () => {
+                let user = await getUser();
+                let Console = await getConsole();
 
-        check_session(user);
+                const redirectResult = check_session(user);
+                if (redirectResult) {
+                    return redirectResult;
+                }
 
-        return { user, Console };
-      },
-    },
-    {
-      path: "/profile",
-      element: <Profile />,
-      loader: async () => {
-        let user = await getUser();
-        let Console = await getConsole();
+                return { user, Console };
+            },
+        },
+        {
+            path: "/profile",
+            element: <Profile />,
+            loader: async () => {
+                let user = await getUser();
+                let Console = await getConsole();
 
-        check_session(user);
+                const redirectResult = check_session(user);
+                if (redirectResult) {
+                    return redirectResult;
+                }
 
-        return { user, Console };
-      },
-    },
-    {
-      path: "/admin",
-      element: <AdminPage />,
-    },
-    {
-      path: "/ControlPanel",
-      element: <AdminConsole />,
-    },
-  ],
-  { basename: "/register" }
+                return { user, Console };
+            },
+        },
+        {
+            path: "/admin",
+            element: <AdminPage />,
+        },
+        {
+            path: "/ControlPanel",
+            element: <AdminConsole />,
+        },
+    ],
+    { basename: "/register" }
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
-  <React.StrictMode>
-    <RouterProvider router={router} />
-    <div className="w-full h-screen bg-secondary-500 fixed left-0 top-0 -z-10" />
-  </React.StrictMode>
+    <React.StrictMode>
+        <RouterProvider router={router} />
+        <div className="w-full h-screen bg-secondary-500 fixed left-0 top-0 -z-10" />
+    </React.StrictMode>
 );

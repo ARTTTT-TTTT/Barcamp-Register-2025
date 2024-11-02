@@ -27,10 +27,15 @@ mongoose
 
 app.use(
     session({
-        secret: "barcamp8", // Change this to a secure random string
+        secret: "barcamp8", // Use a secure random string stored in an env variable
         resave: false,
         saveUninitialized: true,
-        cookie: { maxAge: 24 * 60 * 60 * 1000 }, // 24 hours
+        cookie: {
+            maxAge: 24 * 60 * 60 * 1000, // 24 hours
+            secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+            httpOnly: true, // Prevent JavaScript access to cookies
+            sameSite: "strict", // Prevent CSRF
+        },
     })
 );
 
