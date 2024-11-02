@@ -1,0 +1,67 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Prompt:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  padding: 0;
+  margin: 0;
+  box-sizing: border-box;
+}
+
+@layer base {
+  .text-super-title {
+    @apply text-[5.25rem] font-bold leading-[10rem] text-gray-900;
+  }
+  .text-h1 {
+    @apply text-[2.625rem] font-bold leading-[5rem] text-gray-900;
+  }
+  .text-h2 {
+    @apply text-[1.75rem] font-bold leading-[3.25rem] text-gray-900;
+  }
+  .text-h3 {
+    @apply text-[1.31rem] font-bold leading-[2.5rem] text-gray-900;
+  }
+  .text-h4 {
+    @apply text-[1.1rem] font-bold leading-[2rem] text-gray-900;
+  }
+  .text-h5 {
+    @apply text-[0.875rem] font-bold leading-[1.5rem] text-gray-900;
+  }
+  .text-h6 {
+    @apply text-[0.656rem] font-bold leading-[1.5rem] text-gray-900;
+  }
+  .body-1 {
+    @apply text-[0.875rem] font-normal leading-[1.75rem] text-gray-900;
+  }
+  .body-2 {
+    @apply text-[0.656rem] font-normal leading-[1.5rem] text-gray-900;
+  }
+  .subtitle {
+    @apply text-[0.656rem] font-normal leading-[1.25rem] text-gray-900;
+  }
+  .footer-menu {
+    @apply text-[0.75rem] font-medium leading-[1.5rem] text-gray-900;
+  }
+  .button {
+    @apply text-[0.875rem] font-semibold leading-[1.5rem] text-gray-900;
+  }
+  .small-button {
+    @apply text-[0.656rem] font-medium leading-[1.5rem] text-gray-900;
+  }
+  .board {
+    @apply text-[0.875rem] font-medium leading-[1.25rem] text-gray-900;
+  }
+  .title-board {
+    @apply text-[0.875rem] font-semibold leading-[1.25rem] text-gray-900;
+  }
+
+  .font-outline-2 {
+    -webkit-text-stroke: 2px #fff;
+  }
+  .font-outline-4 {
+    -webkit-text-stroke: 4px #fff;
+  }
+}
