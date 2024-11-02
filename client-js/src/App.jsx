@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Login } from "./AuthFunctions/authFunctions";
 import { useLoaderData } from "react-router-dom";
 import { countDown } from "./CountDown/countDown";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import ImageSlide from "./Components/ImageSlide";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
@@ -11,7 +11,6 @@ function App() {
   const { user, Console } = useLoaderData();
   const [countDownText, setCountDownText] = useState("Loading...");
   const [showButtonLogin, setShowButtonLogin] = useState(true);
-  const [showTimeOutRegister, setShowTimeOutRegister] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {

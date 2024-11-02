@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { Logout } from "../AuthFunctions/authFunctions";
 import clsx from "clsx";
 import { useNavigate } from "react-router-dom";
