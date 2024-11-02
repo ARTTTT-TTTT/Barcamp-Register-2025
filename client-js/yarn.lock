@@ -2285,9 +2285,9 @@ supports-preserve-symlinks-flag@^1.0.0:
   integrity sha512-ot0WnXS9fgdkgIcePe6RHNk1WA8+muPa6cSjeR3V8K27q9BB1rTE3R1p7Hv0z1ZyAc8s6Vvv8DIyWf681MAt0w==
 
 sweetalert2@^11.6.13:
-  version "11.6.13"
-  resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.6.13.tgz"
-  integrity sha512-n5yVF0FNx1lm4XzpPyb1HIaiptzODfVyeCzmB809tpK+1bPdoKoevKOxYjrtId75DV7xuIp4r6cjn8xUAB8dPQ==
+  version "11.14.4"
+  resolved "https://registry.npmjs.org/sweetalert2/-/sweetalert2-11.14.4.tgz"
+  integrity sha512-8QMzjxCuinwm18EK5AtYvuhP+lRMRxTWVXy8om9wGlULsXSI4TD29kyih3VYrSXMMBlD4EShFvNC7slhTC7j0w==
 
 tailwindcss@^3.3.5:
   version "3.3.5"
