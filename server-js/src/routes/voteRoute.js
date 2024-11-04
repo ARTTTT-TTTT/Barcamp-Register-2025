@@ -61,7 +61,7 @@ router.post("/voted", async (req, res) => {
     const topic_selection = await TopicModel.findOne({ _id: id });
     const all_topics = await TopicModel.find({});
     let count_vote = 0;
-    const Istime = await mongoose.connection.db.collection("console").find().toArray();
+    const Istime = await mongoose.connection.db.collection("consoles").find().toArray();
     if (Istime[0]?.vote) {
         for (let i = 0; i < all_topics.length; i++) {
             if (all_topics[i].votes.includes(user)) {
