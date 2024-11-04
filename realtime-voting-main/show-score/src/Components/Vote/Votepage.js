@@ -184,7 +184,7 @@ function Votepage() {
                   alignContent='start'
                 >
                   <AnimatePresence>
-                    {allTopics.sort((a, b) => b.votes - a.votes).filter(e => e.votes >= 3).slice(0, value).map((e, i) =>
+                    {allTopics.sort((a, b) => b.votes - a.votes).filter(e => e.votes >= 1).slice(0, value).map((e, i) =>
                       <Grid item xl={6} key={e._id}>
                         <motion.div
                           key={e._id}
@@ -267,7 +267,7 @@ function Votepage() {
                   align-self= 'start'
                   alignContent="start">
                   <AnimatePresence>
-                    {allTopics.sort((a, b) => b.votes - a.votes).filter(e => e.votes >= 3).slice(value, allTopics.length).map((e, i) =>
+                    {allTopics.sort((a, b) => b.votes - a.votes).filter(e => e.votes >= 1).slice(value, allTopics.length).map((e, i) =>
                       <Grid key={e._id} item xl={4} sx={{ zIndex: value, position: 'relative' }}>
                         <motion.div
                           key={e._id}
