@@ -1,8 +1,9 @@
-import config from "../../config";
+import config from "../services/config";
 
 const getConsole = async () => {
     try {
-        const response = await fetch(`${config.apiPrefix}/console`, { // Corrected template literal syntax
+        const response = await fetch(`${config.apiPrefix}/console`, {
+            // Corrected template literal syntax
             method: "GET",
             headers: {
                 Accept: "application/json",

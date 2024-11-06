@@ -59,19 +59,35 @@ router.get("/logout", (req, res) => {
             return res.status(500).json({ error: true, message: "Logout failed" });
         }
 
-        res.clearCookie("connect.sid", { path: "/" });
+        res.status(200).clearCookie("connect.sid", {
+            path: "/",
+        });
         res.redirect(`${CLIENT_URL}/register`);
     });
 });
 
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
 
-router.get(
-    "/google/callback",
-    passport.authenticate("google", {
-        successRedirect: `${CLIENT_URL}/register/profile`,
-        failureRedirect: "/auth/login/failed",
-    })
-);
+router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/auth/login/failed" }), (req, res) => {
+    // ตรวจสอบสถานะของผู้ใช้หลังจากเข้าสู่ระบบสำเร็จ
+    if (req.user) {
+        let email = req.user.emails[0].value;
+
+        // ค้นหาผู้ใช้ในฐานข้อมูล
+        Participant.findOne({ email }).then((currentUser) => {
+            if (currentUser) {
+                if (currentUser.status === "") {
+                    return res.redirect(`${CLIENT_URL}/register/form`);
+                } else {
+                    return res.redirect(`${CLIENT_URL}/register/profile`);
+                }
+            } else {
+                return res.redirect(`${CLIENT_URL}/register/form`);
+            }
+        });
+    } else {
+        res.redirect(`${CLIENT_URL}/register`);
+    }
+});
 
 module.exports = router;

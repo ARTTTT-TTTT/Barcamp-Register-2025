@@ -51,7 +51,7 @@ const ParticipantSchema = new Schema({
   },
   status: {
     type: String,
-    default: "PENDING",
+    default: "",
   },
   slip: {
     type: String,

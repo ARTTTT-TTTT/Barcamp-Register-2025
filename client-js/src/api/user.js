@@ -1,9 +1,7 @@
-import config from "../../config";
+import config from "../services/config";
 
 const getUser = async () => {
-
     try {
-
         let user = await fetch(`${config.apiPrefixAuth}/login/success`, {
             method: "GET",
             credentials: "include",
@@ -12,16 +10,12 @@ const getUser = async () => {
                 "Content-Type": "application/json",
                 "Access-Control-Allow-Credentials": true,
             },
-        })
+        });
 
-        return user.json()
-
+        return user.json();
     } catch (error) {
-
-        return {error}
-
+        return { error };
     }
-
 };
 
-export default getUser
+export default getUser;
