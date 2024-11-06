@@ -4,10 +4,10 @@ import React from "react";
 import App from "./App.jsx";
 import "./index.css";
 
-import FormPage from "./Pages/FormPage.jsx";
-import Profile from "./Pages/Profile.jsx";
-import AdminPage from "./Pages/AdminPage.jsx";
-import AdminConsole from "./Pages/AdminConsole.jsx";
+import FormPage from "./pages/FormPage.jsx";
+import Profile from "./pages/Profile.jsx";
+import AdminPage from "./pages/AdminPage.jsx";
+import AdminConsole from "./pages/AdminConsole.jsx";
 
 import getUser from "./api/user.js";
 import getConsole from "./api/console.js";
