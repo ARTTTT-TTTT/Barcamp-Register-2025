@@ -1,8 +1,5 @@
-import React from 'react'
-import Box from '@mui/material/Box';
-import { InputAdornment, TextField } from '@mui/material';
+import { InputAdornment, TextField, Box } from "@mui/material";
 
-//Icon
 import SearchIcon from '@mui/icons-material/Search';
 
 const Searchbar = ({ placeholder, onChange }) => {

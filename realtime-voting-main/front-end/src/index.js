@@ -43,9 +43,7 @@ const themeLight = createTheme({
 root.render(
   <ThemeProvider theme={ !theme ? themeLight : themeDark}>
     <React.StrictMode>
-      <div>
         <App />
-      </div>
     </React.StrictMode>
   </ThemeProvider>
 );
