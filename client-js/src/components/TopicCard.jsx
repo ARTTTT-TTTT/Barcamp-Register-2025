@@ -1,4 +1,5 @@
 import { useContext, useState } from "react";
+import PropTypes from "prop-types";
 import {
     CardActions,
     colors,
@@ -21,10 +22,10 @@ import AccessTimeFilledIcon from "@mui/icons-material/AccessTimeFilled";
 import LocalOfferIcon from "@mui/icons-material/LocalOffer";
 
 import AlertBox from "./AlertBox";
-import { userContext } from "../App";
+import { userContext } from "../pages/VotePage";
 import api from "../api/api";
 
-export default function TopicCard({ data, callback }) {
+function TopicCard({ data, callback }) {
     const Recommend = "Recommend";
     const isMobile = useMediaQuery("(max-width:600px)");
     const dialogSize = isMobile ? "sm" : "lg";
@@ -377,8 +378,9 @@ export default function TopicCard({ data, callback }) {
                                         display: "flex",
                                         alignItems: "center",
                                         justifyContent: "center",
+                                        color: "white",
+                                        background: check ? colors.red["A400"] : "#27db5d",
                                     }}
-                                    style={{ color: "white", background: check ? colors.red["A400"] : (colors = "#27db5d") }}
                                 >
                                     <Typography variant="body2" sx={{ fontWeight: "700", whiteSpace: "nowrap", marginRight: "8px" }}>
                                         {check ? "ยกเลิกโหวต" : "โหวต"}
@@ -392,3 +394,19 @@ export default function TopicCard({ data, callback }) {
         </div>
     );
 }
+
+TopicCard.propTypes = {
+    data: PropTypes.shape({
+        _id: PropTypes.string.isRequired,
+        title: PropTypes.string.isRequired,
+        speaker: PropTypes.string.isRequired,
+        category: PropTypes.string,
+        description: PropTypes.string,
+        long_duration: PropTypes.bool,
+        recommend: PropTypes.bool,
+        status: PropTypes.bool,
+    }).isRequired,
+    callback: PropTypes.func.isRequired,
+};
+
+export default TopicCard;

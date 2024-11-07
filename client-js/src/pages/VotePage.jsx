@@ -1,27 +1,32 @@
+/* eslint-disable react/no-unescaped-entities */
 import React, { useEffect, useState } from "react";
+import { useLoaderData, useNavigate } from "react-router-dom";
 import { Box, Container, Grid, Typography, createTheme, ThemeProvider } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 
-import NavBar from "./components/Navbar";
-import Searchbar from "./components/Searchbar";
-import TopicCard from "./components/TopicCard";
-import Footer from "./components/Footer";
-import AlertBox from "./components/AlertBox.jsx";
-import api from "./api/api.js";
+import NavBar from "../components/Navbar";
+import Searchbar from "../components/Searchbar";
+import TopicCard from "../components/TopicCard";
+import Footer from "../components/Footer";
+import AlertBox from "../components/AlertBox.jsx";
+import api from "../api/api.js";
 
-import "./styles/scrollbar.css";
-import "./styles/sun.css";
-import "./styles/vote.css"
+import "../styles/scrollbar.css";
+import "../styles/sun.css";
+import "../styles/vote.css";
 
 const userContext = React.createContext();
 
-function App() {
+function VotePage() {
     const [searchTerm, setSearchTerm] = useState("");
     const [point, setPoint] = useState(null);
     const [data, setData] = useState([]);
     const [alert, setAlert] = useState(false);
     const [centent, setContent] = useState("");
-    const [user, setUser] = useState("abc");
+    const { user, Console } = useLoaderData();
+    const navigate = useNavigate();
+
+    let user_id = user.user._id;
 
     const themeLight = createTheme({
         palette: {
@@ -38,14 +43,16 @@ function App() {
         },
     });
 
+    useEffect(() => {
+        if (Console.vote !== true || !user_id || user.user.status !== "CONFIRMED") {
+            navigate("/profile");
+        }
+    }, [navigate, user_id, Console.vote, user.user.status]);
+
     //Fetch
     useEffect(() => {
-        let user_id = "?uid=testUser123"; //pass the user_id to this parameter
-
-        if (!!user_id) {
-            setUser(user_id);
+        if (user_id) {
             api.get(`/topics/?user=${user_id}`).then((res) => {
-                //console.log(res)
                 if (res.data.Istime) {
                     let me_vote = res.data.topics_to_send.filter((e) => e.status);
                     let not_vote = res.data.topics_to_send.filter((e) => !e.status).sort(() => 0.5 - Math.random());
@@ -58,7 +65,7 @@ function App() {
                 }
             });
         }
-    }, [user]);
+    }, [user_id]);
 
     const search_filter = (val) => {
         if (searchTerm === "") {
@@ -89,9 +96,9 @@ function App() {
     };
 
     return (
-        <section className="vote-page">
-            <userContext.Provider value={user}>
-                <ThemeProvider theme={themeLight}>
+        <userContext.Provider value={user_id}>
+            <ThemeProvider theme={themeLight}>
+                <section className="vote-page">
                     <NavBar used_point={point} />
                     <Box
                         sx={{
@@ -156,11 +163,12 @@ function App() {
                         </Container>
                         <Footer />
                     </Box>
-                </ThemeProvider>
-            </userContext.Provider>
-        </section>
+                </section>
+            </ThemeProvider>
+        </userContext.Provider>
     );
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { userContext };
-export default App;
+export default VotePage;

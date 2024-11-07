@@ -8,7 +8,7 @@ import Pending from "../components/Pending";
 import AppBar from "../components/AppBar";
 
 function Profile() {
-    const { user } = useLoaderData();
+    const { user, Console } = useLoaderData();
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -38,7 +38,7 @@ function Profile() {
                     <div className="w-full h-[1px] bg-primary-50" />
 
                     {user.user.status === "CONFIRMED" ? (
-                        <Confirmed user={user.user} />
+                        <Confirmed user={user.user} Console={Console} />
                     ) : user.user.status === "QUALIFIED" ? (
                         <Qualified user={user.user} />
                     ) : user.user.status === "NOT_QUALIFIED" ? (

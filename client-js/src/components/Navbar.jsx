@@ -1,18 +1,17 @@
+import PropTypes from "prop-types";
 import { Box, Typography, Button, Container, Toolbar, AppBar } from "@mui/material";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
-export default function NavBar({ used_point }) {
+function NavBar({ used_point }) {
     return (
         <AppBar position="fixed">
             <Container maxWidth="xl">
                 <Toolbar disableGutters>
                     <Button href="/">
                         <img
-                            style={{ height: 50 }}
+                            style={{ height: 50 }} // ใช้ style แทน sx สำหรับ img
                             src="/images/BARCAMP8xl-removebg-preview.png"
                             alt="BarcampLogo"
-                            href="/"
-                            sx={{ display: { xs: "none", md: "flex" } }}
                         />
                     </Button>
                     <Typography fontWeight="bold" variant="h7">
@@ -39,3 +38,10 @@ export default function NavBar({ used_point }) {
         </AppBar>
     );
 }
+
+// เพิ่ม PropTypes สำหรับการตรวจสอบ props
+NavBar.propTypes = {
+    used_point: PropTypes.number,
+};
+
+export default NavBar;

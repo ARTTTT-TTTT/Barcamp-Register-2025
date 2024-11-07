@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import PropTypes from "prop-types";
 import { Dialog, DialogTitle, DialogContent, DialogContentText, Button, DialogActions } from "@mui/material";
 
 function AlertBox({ content, alert, callbackClose }) {
@@ -46,5 +47,11 @@ function AlertBox({ content, alert, callbackClose }) {
         </Dialog>
     );
 }
+
+AlertBox.propTypes = {
+    content: PropTypes.string.isRequired,
+    alert: PropTypes.bool.isRequired,
+    callbackClose: PropTypes.func.isRequired,
+};
 
 export default AlertBox;

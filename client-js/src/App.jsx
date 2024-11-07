@@ -7,7 +7,7 @@ import { countDown } from "./functions/countDown";
 import ImageSlide from "./components/ImageSlide";
 
 function App() {
-    const { user = {}, Console } = useLoaderData(); // ตั้งค่า user ให้เป็นวัตถุเปล่าเมื่อไม่มีค่า
+    const { user = {}, Console } = useLoaderData();
     const navigate = useNavigate();
 
     useEffect(() => {
