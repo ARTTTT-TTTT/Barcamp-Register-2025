@@ -16,7 +16,7 @@ const Searchbar = ({ placeholder, onChange }) => {
                             <SearchIcon />
                         </InputAdornment>
                     ),
-                    style:{backgroundColor:"white", borderRadius: '2rem',boxShadow: "5px 5px 10px #888888"}
+                    style:{backgroundColor:"white", borderRadius: '2rem',boxShadow: "5px 5px 10px #888888", marginTop:"0.5rem"}
                 }}
             />
         </Box>

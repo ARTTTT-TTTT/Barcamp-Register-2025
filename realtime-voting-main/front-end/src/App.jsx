@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Box, Container, Grid, Typography } from "@mui/material";
+import { Box, Container, Grid, Typography, createTheme, ThemeProvider } from "@mui/material";
 import { AnimatePresence, motion } from "framer-motion";
 
 import NavBar from "./components/Navbar";
@@ -11,6 +11,7 @@ import api from "./api/api.js";
 
 import "./styles/scrollbar.css";
 import "./styles/sun.css";
+import "./styles/vote.css"
 
 const userContext = React.createContext();
 
@@ -21,6 +22,21 @@ function App() {
     const [alert, setAlert] = useState(false);
     const [centent, setContent] = useState("");
     const [user, setUser] = useState("abc");
+
+    const themeLight = createTheme({
+        palette: {
+            mode: "light",
+            primary: {
+                main: "#fff",
+            },
+            secondary: {
+                main: "#52cfe3",
+            },
+        },
+        typography: {
+            fontFamily: "Noto Sans Thai, san serif",
+        },
+    });
 
     //Fetch
     useEffect(() => {
@@ -73,74 +89,76 @@ function App() {
     };
 
     return (
-        <userContext.Provider value={user}>
-            <div>
-                <NavBar used_point={point} />
-                <Box
-                    sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        minHeight: "100vh",
-                    }}
-                >
+        <section className="vote-page">
+            <userContext.Provider value={user}>
+                <ThemeProvider theme={themeLight}>
+                    <NavBar used_point={point} />
                     <Box
                         sx={{
-                            zIndex: 200,
-                            padding: "1rem",
-                            position: "sticky",
-                            mt: "3rem",
-                            top: "3.7rem",
+                            display: "flex",
+                            flexDirection: "column",
+                            minHeight: "100vh",
                         }}
                     >
-                        {alert ? (
-                            <Typography
-                                sx={{
-                                    position: "fixed",
-                                    top: "20%",
-                                    left: "50%",
-                                    transform: "translate(-50% ,-50%)",
-                                    textAlign: "center",
-                                }}
-                                variant="body2"
-                            >
-                                It's not time to vote or voting time has expired.
-                            </Typography>
-                        ) : (
-                            <Container>
-                                <Searchbar
-                                    placeholder="Search Topic"
-                                    onChange={(event) => {
-                                        setSearchTerm(event.target.value);
+                        <Box
+                            sx={{
+                                zIndex: 200,
+                                padding: "1rem",
+                                position: "sticky",
+                                mt: "3rem",
+                                top: "3.7rem",
+                            }}
+                        >
+                            {alert ? (
+                                <Typography
+                                    sx={{
+                                        position: "fixed",
+                                        top: "20%",
+                                        left: "50%",
+                                        transform: "translate(-50% ,-50%)",
+                                        textAlign: "center",
                                     }}
-                                />
-                            </Container>
-                        )}
-                    </Box>
-                    <Container maxWidth="lg" sx={{ mt: "1rem", mb: "1rem" }}>
-                        <AnimatePresence>
-                            <Grid container spacing={2} columns={12}>
-                                {data.filter(search_filter).map((e, i) => (
-                                    <Grid item xs={12} lg={6} key={e._id} sx={{ zIndex: data.length - i }}>
-                                        <motion.div
-                                            key={e._id}
-                                            layout
-                                            initial={{ opacity: 0 }}
-                                            animate={{ opacity: 1 }}
-                                            transition={{ duration: 0.5 }}
-                                        >
-                                            <TopicCard data={e} callback={callback} index={i} />
-                                        </motion.div>
-                                    </Grid>
-                                ))}
-                            </Grid>
-                        </AnimatePresence>
+                                    variant="body2"
+                                >
+                                    It's not time to vote or voting time has expired.
+                                </Typography>
+                            ) : (
+                                <Container>
+                                    <Searchbar
+                                        placeholder="Search Topic"
+                                        onChange={(event) => {
+                                            setSearchTerm(event.target.value);
+                                        }}
+                                    />
+                                </Container>
+                            )}
+                        </Box>
+                        <Container maxWidth="lg" sx={{ mt: "1rem", mb: "1rem" }}>
+                            <AnimatePresence>
+                                <Grid container spacing={2} columns={12}>
+                                    {data.filter(search_filter).map((e, i) => (
+                                        <Grid item xs={12} lg={6} key={e._id} sx={{ zIndex: data.length - i }}>
+                                            <motion.div
+                                                key={e._id}
+                                                layout
+                                                initial={{ opacity: 0 }}
+                                                animate={{ opacity: 1 }}
+                                                transition={{ duration: 0.5 }}
+                                            >
+                                                <TopicCard data={e} callback={callback} index={i} />
+                                            </motion.div>
+                                        </Grid>
+                                    ))}
+                                </Grid>
+                            </AnimatePresence>
 
-                        <AlertBox content={centent} alert={alert} callbackClose={() => {}} />
-                    </Container>
-                    <Footer />
-                </Box>
-            </div>
-        </userContext.Provider>
+                            <AlertBox content={centent} alert={alert} callbackClose={() => {}} />
+                        </Container>
+                        <Footer />
+                    </Box>
+                </ThemeProvider>
+            </userContext.Provider>
+        </section>
     );
 }
 
