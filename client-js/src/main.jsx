@@ -6,7 +6,6 @@ import "./index.css";
 
 import FormPage from "./pages/FormPage.jsx";
 import Profile from "./pages/Profile.jsx";
-import VotePage from "./pages/VotePage.jsx"
 import AdminPage from "./pages/AdminPage.jsx";
 import AdminConsole from "./pages/AdminConsole.jsx";
 
@@ -50,22 +49,6 @@ const router = createBrowserRouter(
                     return (window.location.href = "/register");
                 }
 
-                return { user, Console };
-            },
-        },
-        {
-            path: "/vote",
-            element: <VotePage />,
-            loader: async () => {
-                let user = await getUser();
-                let Console = await getConsole();
-
-                if (user.message === "No session.") {
-                    return (window.location.href = "/register");
-                }
-                if (Console.vote !== true && user.status !== "CONFIRMED") {
-                    return (window.location.href = "/register/profile");
-                }
                 return { user, Console };
             },
         },
