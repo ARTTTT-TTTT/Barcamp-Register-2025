@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
 import { QRCode } from "react-qrcode-logo";
-import { useNavigate } from "react-router-dom";
 import PropTypes from "prop-types";
+
+import config from "../services/config";
 
 function Confirmed({ user, Console }) {
     const [voteOpen, setVoteOpen] = useState(false);
-    const navigate = useNavigate();
 
     const downloadCode = () => {
         const canvas = document.getElementById("QR");
@@ -21,7 +21,7 @@ function Confirmed({ user, Console }) {
     };
 
     const navigateVotePage = () => {
-        navigate("/vote");
+        window.location.href = `${config.voteDomain}/vote/${user._id}`;
     };
 
     useEffect(() => {

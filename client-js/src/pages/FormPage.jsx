@@ -52,7 +52,6 @@ function FormPage() {
         } else if (!phoneRegex.test(value)) {
             errorMessage = "หมายเลขโทรศัพท์ไม่ถูกต้อง กรุณากรอกหมายเลขโทรศัพท์ 10 หลัก";
         }
-
         return errorMessage;
     };
 
