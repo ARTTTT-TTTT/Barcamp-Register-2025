@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { QRCode } from "react-qrcode-logo";
 import PropTypes from "prop-types";
+import CryptoJS from "crypto-js";
 
 import config from "../services/config";
 
@@ -21,11 +22,18 @@ function Confirmed({ user, Console }) {
     };
 
     const navigateVotePage = () => {
-        window.location.href = `${config.voteDomain}/vote/${user._id}`;
+        if (!user || !user._id || !config.SECRET_KEY) {
+            console.error("Error: Missing user._id or config.SECRET_KEY");
+            return;
+        }
+
+        // ทำการเข้ารหัส
+        const encryptedId = CryptoJS.AES.encrypt(user._id, config.SECRET_KEY).toString();
+        window.location.href = `${config.voteDomain}/vote/${encodeURIComponent(encryptedId)}`;
     };
 
     useEffect(() => {
-        if (Console.vote == true && user.status == "CONFIRMED") {
+        if (Console.vote === true && user.status === "CONFIRMED") {
             setVoteOpen(true);
         }
     }, [Console.vote, user.status]);
