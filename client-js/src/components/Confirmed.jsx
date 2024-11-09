@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { QRCode } from "react-qrcode-logo";
 import PropTypes from "prop-types";
 import CryptoJS from "crypto-js";
