@@ -4,7 +4,7 @@ const config = {
     isProd,
     apiPrefix: isProd ? "/api" : import.meta.env.VITE_API_PREFIX,
     apiPrefixAuth: isProd ? "/auth" : import.meta.env.VITE_API_PREFIX_AUTH,
-    voteDomain: isProd ? import.meta.env.VITE_VOTE_DOMAIN : "http://localhost:3000",
+    voteDomain: isProd ? import.meta.env.VITE_VOTE_DOMAIN : "http://localhost:4000",
 };
 
 export default config;
