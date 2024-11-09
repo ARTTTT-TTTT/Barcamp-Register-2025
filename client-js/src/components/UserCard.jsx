@@ -87,18 +87,10 @@ function UserCard({ user, update_status }) {
                 </div>
                 <div className="mt-5 space-y-5">
                     <select onChange={(e) => setStatus(e.target.value)} className="p-2 bg-gray-100 w-full outline-none rounded-lg">
-                        <option value="PENDING" disabled={user.status === "PENDING"}>
-                            PENDING
-                        </option>
-                        <option value="QUALIFIED" disabled={user.status === "QUALIFIED"}>
-                            QUALIFIED
-                        </option>
-                        <option value="CONFIRMED" disabled={user.status === "PENDING" || user.status === "CONFIRMED"}>
-                            CONFIRMED
-                        </option>
-                        <option value="NOT_QUALIFIED" disabled={user.status === "NOT_QUALIFIED"}>
-                            NOT_QUALIFIED
-                        </option>
+                        <option value="PENDING">PENDING</option>
+                        <option value="QUALIFIED">QUALIFIED</option>
+                        <option value="CONFIRMED">CONFIRMED</option>
+                        <option value="NOT_QUALIFIED">NOT_QUALIFIED</option>
                     </select>
                     <button
                         onClick={() => update_status(user._id, status)}
