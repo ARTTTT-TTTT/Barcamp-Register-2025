@@ -7,6 +7,7 @@ import config from "../services/config";
 
 function Confirmed({ user, Console }) {
     const [voteOpen, setVoteOpen] = useState(false);
+    const navigate = useNavigate();
 
     const downloadCode = () => {
         const canvas = document.getElementById("QR");
@@ -22,14 +23,14 @@ function Confirmed({ user, Console }) {
     };
 
     const navigateVotePage = () => {
-        if (!user || !user._id || !config.SECRET_KEY) {
-            console.error("Error: Missing user._id or config.SECRET_KEY");
-            return;
+        try {
+            const encryptedId = CryptoJS.AES.encrypt(user._id, config.SECRET_KEY).toString();
+            const encryptedIdEncoded = encodeURIComponent(encryptedId);
+            window.location.href = `${config.voteDomain}/vote/${encryptedIdEncoded}`;
+        } catch (error) {
+            console.error("Error during encryption or redirection:", error);
+            navigate("/register/profile");
         }
-
-        // ทำการเข้ารหัส
-        const encryptedId = CryptoJS.AES.encrypt(user._id, config.SECRET_KEY).toString();
-        window.location.href = `${config.voteDomain}/vote/${encodeURIComponent(encryptedId)}`;
     };
 
     useEffect(() => {
