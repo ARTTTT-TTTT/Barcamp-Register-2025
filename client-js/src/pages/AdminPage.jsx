@@ -24,13 +24,13 @@ function AdminPage() {
             });
         } else {
             window.localStorage.setItem("access_token", res.access_token);
-            navigate("/ControlPanel");
+            navigate("/admin/control-panel");
         }
     };
 
     useEffect(() => {
         if (window.localStorage.getItem("access_token")) {
-            navigate("/ControlPanel");
+            navigate("/admin/control-panel");
         }
     }, [navigate]);
 
