@@ -6,7 +6,7 @@ import clsx from "clsx";
 import UserCard from "../components/UserCard";
 import { adminUpdateStatus, adminGetAllUsers } from "../api/auth";
 
-function AdminConsole() {
+function AdminConsolePage() {
     const navigate = useNavigate();
 
     const [usersLst, setUsersLst] = useState([]);
@@ -27,13 +27,13 @@ function AdminConsole() {
         try {
             let users = await adminGetAllUsers();
             setUsersLst(users || []); // Ensure usersLst is always an array
-            
+
             // Calculate counts by status
             const counts = {
-                NOT_QUALIFIED: users.filter(user => user.status === 'NOT_QUALIFIED').length,
-                PENDING: users.filter(user => user.status === 'PENDING').length,
-                QUALIFIED: users.filter(user => user.status === 'QUALIFIED').length,
-                CONFIRMED: users.filter(user => user.status === 'CONFIRMED').length,
+                NOT_QUALIFIED: users.filter((user) => user.status === "NOT_QUALIFIED").length,
+                PENDING: users.filter((user) => user.status === "PENDING").length,
+                QUALIFIED: users.filter((user) => user.status === "QUALIFIED").length,
+                CONFIRMED: users.filter((user) => user.status === "CONFIRMED").length,
             };
             setUserCounts(counts); // Update the counts
         } catch (error) {
@@ -176,4 +176,4 @@ function AdminConsole() {
     );
 }
 
-export default AdminConsole;
+export default AdminConsolePage;
