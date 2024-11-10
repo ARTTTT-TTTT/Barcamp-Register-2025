@@ -1,12 +1,9 @@
-require("dotenv").config();
-
 const router = require("express").Router();
 const passport = require("passport");
+
 const Participant = require("../models/participant");
 const Console = require("../models/console");
-
-//const CLIENT_URL = process.env.PRODUCTION ? process.env.ORIGIN_URL : "http://localhost:3000";
-const CLIENT_URL = process.env.PRODUCTION ? "http://localhost:3000" : "http://localhost:3000";
+const config = require("../config");
 
 router.get("/login/success", (req, res) => {
     if (req.user) {
@@ -50,7 +47,7 @@ router.get("/login/success", (req, res) => {
 });
 
 router.get("/login/failed", (req, res) => {
-    res.redirect(`${CLIENT_URL}/register`); // เปลี่ยนเส้นทางไปหน้า register
+    res.redirect(`${config.client_url}`); // เปลี่ยนเส้นทางไปหน้า register
 });
 
 router.get("/logout", (req, res) => {
@@ -62,7 +59,7 @@ router.get("/logout", (req, res) => {
         res.status(200).clearCookie("connect.sid", {
             path: "/",
         });
-        res.redirect(`${CLIENT_URL}/register`);
+        res.redirect(`${config.client_url}`);
     });
 });
 
@@ -77,16 +74,16 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
         Participant.findOne({ email }).then((currentUser) => {
             if (currentUser) {
                 if (currentUser.status === "") {
-                    return res.redirect(`${CLIENT_URL}/register/form`);
+                    return res.redirect(`${config.client_url}/form`);
                 } else {
-                    return res.redirect(`${CLIENT_URL}/register/profile`);
+                    return res.redirect(`${config.client_url}/profile`);
                 }
             } else {
-                return res.redirect(`${CLIENT_URL}/register/form`);
+                return res.redirect(`${config.client_url}/form`);
             }
         });
     } else {
-        res.redirect(`${CLIENT_URL}/register`);
+        res.redirect(`${config.client_url}`);
     }
 });
 
