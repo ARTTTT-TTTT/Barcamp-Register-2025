@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { QRCode } from "react-qrcode-logo";
 import PropTypes from "prop-types";
+import CryptoJS from "crypto-js";
 
 import config from "../services/config";
 
 function Confirmed({ user, Console }) {
     const [voteOpen, setVoteOpen] = useState(false);
+    const navigate = useNavigate();
 
     const downloadCode = () => {
         const canvas = document.getElementById("QR");
@@ -21,11 +24,18 @@ function Confirmed({ user, Console }) {
     };
 
     const navigateVotePage = () => {
-        window.location.href = `${config.voteDomain}/vote/${user._id}`;
+        try {
+            const encryptedId = CryptoJS.AES.encrypt(user._id, config.SECRET_KEY).toString();
+            const encryptedIdEncoded = encodeURIComponent(encryptedId);
+            window.location.href = `${config.voteDomain}/vote/${encryptedIdEncoded}`;
+        } catch (error) {
+            console.error("Error during encryption or redirection:", error);
+            navigate("/register/profile");
+        }
     };
 
     useEffect(() => {
-        if (Console.vote == true && user.status == "CONFIRMED") {
+        if (Console.vote === true && user.status === "CONFIRMED") {
             setVoteOpen(true);
         }
     }, [Console.vote, user.status]);

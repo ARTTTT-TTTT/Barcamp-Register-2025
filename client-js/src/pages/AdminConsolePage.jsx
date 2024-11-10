@@ -6,7 +6,7 @@ import clsx from "clsx";
 import UserCard from "../components/UserCard";
 import { adminUpdateStatus, adminGetAllUsers } from "../api/auth";
 
-function AdminConsole() {
+function AdminConsolePage() {
     const navigate = useNavigate();
 
     const [usersLst, setUsersLst] = useState([]);
@@ -14,11 +14,35 @@ function AdminConsole() {
     const [filter, setFilter] = useState("");
     const [filterPay, setFilterPay] = useState(false);
 
+    // State to hold counts of users for each status
+    const [userCounts, setUserCounts] = useState({
+        NOT_QUALIFIED: 0,
+        PENDING: 0,
+        QUALIFIED: 0,
+        CONFIRMED: 0,
+    });
+
+    // Fetch users and calculate user counts based on status
     const fetch_user = async () => {
-        let users = await adminGetAllUsers();
-        setUsersLst(users);
+        try {
+            let users = await adminGetAllUsers();
+            setUsersLst(users || []); // Ensure usersLst is always an array
+
+            // Calculate counts by status
+            const counts = {
+                NOT_QUALIFIED: users.filter((user) => user.status === "NOT_QUALIFIED").length,
+                PENDING: users.filter((user) => user.status === "PENDING").length,
+                QUALIFIED: users.filter((user) => user.status === "QUALIFIED").length,
+                CONFIRMED: users.filter((user) => user.status === "CONFIRMED").length,
+            };
+            setUserCounts(counts); // Update the counts
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            setUsersLst([]);
+        }
     };
 
+    // Update status of a user
     const update_status = async (id, status) => {
         try {
             await adminUpdateStatus({ _id: id, status });
@@ -61,7 +85,13 @@ function AdminConsole() {
     return (
         <div>
             <div className="fixed top-0 left-0 flex w-full z-20 p-4 items-center justify-between bg-primary-500">
-                <p className="text-white">User Count : {usersLst.filter((user) => user.firstName).length}</p>
+                {/* Display the count of users for each status */}
+                <div className="flex space-x-4">
+                    <p className="text-white">| Not Qualified= {userCounts.NOT_QUALIFIED} |</p>
+                    <p className="text-white">Pending= {userCounts.PENDING} |</p>
+                    <p className="text-white">Qualified= {userCounts.QUALIFIED} |</p>
+                    <p className="text-white">Confirmed= {userCounts.CONFIRMED} |</p>
+                </div>
                 <button onClick={logout}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
@@ -79,6 +109,7 @@ function AdminConsole() {
                     </svg>
                 </button>
             </div>
+
             <div className="container max-w-lg mx-auto p-4 pt-24">
                 <div className="fixed left-1/2 p-4 top-16 pt-10 -translate-x-1/2 max-w-lg w-full bg-secondary-500 z-10">
                     <input
@@ -145,4 +176,4 @@ function AdminConsole() {
     );
 }
 
-export default AdminConsole;
+export default AdminConsolePage;

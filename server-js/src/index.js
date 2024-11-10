@@ -32,7 +32,7 @@ app.use(
         saveUninitialized: true,
         cookie: {
             maxAge: 24 * 60 * 60 * 1000, // 24 hours
-            secure: process.env.NODE_ENV === "production", // Use secure cookies in production
+            secure: process.env.PRODUCTION === true, // Use secure cookies in production
             httpOnly: true, // Prevent JavaScript access to cookies
             sameSite: "strict", // Prevent CSRF
         },
@@ -44,20 +44,11 @@ app.use(passport.session());
 app.use(express.json());
 app.use("/api", express.static(__dirname));
 
-/* app.use(
-    cors({
-        origin: process.env.PRODUCTION ? "*" : "http://localhost:3000",
-        methods: "GET,POST,PUT,DELETE",
-        credentials: true,
-    })
-);
- */
-
 app.use(
     cors({
-        origin: process.env.PRODUCTION_URL ? process.env.ORIGIN_URL : "http://localhost:3000",
+        origin: ["http://localhost:3000", "http://localhost:4000", process.env.PRODUCTION_URL],
         methods: ["GET", "POST", "PUT", "DELETE"],
-        credentials: true, // Allow credentials
+        credentials: true,
     })
 );
 

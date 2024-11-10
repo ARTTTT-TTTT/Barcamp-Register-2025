@@ -6,8 +6,18 @@ import config from "../services/config";
 
 function UserCard({ user, update_status }) {
     const [collape, setCollape] = useState(false);
-    const [status, setStatus] = useState("PENDING");
     const [openSlip, setOpenSlip] = useState(false);
+    const [status, setStatus] = useState(() => {
+        if (user.status === "PENDING") {
+            return "QUALIFIED";
+        } else if (user.status === "QUALIFIED") {
+            return "CONFIRMED";
+        } else if (user.status === "CONFIRMED") {
+            return "QUALIFIED";
+        } else {
+            return "PENDING";
+        }
+    });
 
     return (
         <div className="p-4 bg-white w-full rounded-lg shadow-md relative">
@@ -87,10 +97,31 @@ function UserCard({ user, update_status }) {
                 </div>
                 <div className="mt-5 space-y-5">
                     <select onChange={(e) => setStatus(e.target.value)} className="p-2 bg-gray-100 w-full outline-none rounded-lg">
-                        <option value="PENDING">PENDING</option>
-                        <option value="QUALIFIED">QUALIFIED</option>
-                        <option value="CONFIRMED">CONFIRMED</option>
-                        <option value="NOT_QUALIFIED">NOT_QUALIFIED</option>
+                        {user.status === "PENDING" && (
+                            <>
+                                <option value="QUALIFIED">QUALIFIED</option>
+                                <option value="NOT_QUALIFIED">NOT_QUALIFIED</option>
+                            </>
+                        )}
+                        {user.status === "QUALIFIED" && (
+                            <>
+                                <option value="CONFIRMED">CONFIRMED</option>
+                                <option value="PENDING">PENDING</option>
+                                <option value="NOT_QUALIFIED">NOT_QUALIFIED</option>
+                            </>
+                        )}
+                        {user.status === "CONFIRMED" && (
+                            <>
+                                <option value="QUALIFIED">QUALIFIED</option>
+                                <option value="PENDING">PENDING</option>
+                            </>
+                        )}
+                        {user.status === "NOT_QUALIFIED" && (
+                            <>
+                                <option value="PENDING">PENDING</option>
+                                <option value="QUALIFIED">QUALIFIED</option>
+                            </>
+                        )}
                     </select>
                     <button
                         onClick={() => update_status(user._id, status)}

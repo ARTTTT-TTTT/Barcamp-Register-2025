@@ -7,7 +7,7 @@ import "./index.css";
 import FormPage from "./pages/FormPage.jsx";
 import Profile from "./pages/Profile.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
-import AdminConsole from "./pages/AdminConsole.jsx";
+import AdminConsolePage from "./pages/AdminConsolePage.jsx";
 
 import getUser from "./api/user.js";
 import getConsole from "./api/console.js";
@@ -57,8 +57,8 @@ const router = createBrowserRouter(
             element: <AdminPage />,
         },
         {
-            path: "/ControlPanel",
-            element: <AdminConsole />,
+            path: "/admin/control-panel",
+            element: <AdminConsolePage />,
         },
     ],
     { basename: "/register" }
