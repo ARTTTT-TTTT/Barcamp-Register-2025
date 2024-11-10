@@ -1,6 +1,5 @@
 const Paticipant = require("../models/participant");
 const getEditable = require("./getEditable");
-require("dotenv").config();
 
 module.exports = (req, res) => {
   let id = req.body.id;
