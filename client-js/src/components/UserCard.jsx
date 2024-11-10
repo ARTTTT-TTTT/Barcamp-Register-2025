@@ -112,22 +112,14 @@ function UserCard({ user, update_status }) {
                         )}
                         {user.status === "CONFIRMED" && (
                             <>
-                                <option value="QUALIFIED" disabled={user.status === "QUALIFIED"}>
-                                    QUALIFIED
-                                </option>
-                                <option value="PENDING" disabled={user.status === "PENDING"}>
-                                    PENDING
-                                </option>
+                                <option value="QUALIFIED">QUALIFIED</option>
+                                <option value="PENDING">PENDING</option>
                             </>
                         )}
                         {user.status === "NOT_QUALIFIED" && (
                             <>
-                                <option value="PENDING" disabled={user.status === "PENDING"}>
-                                    PENDING
-                                </option>
-                                <option value="QUALIFIED" disabled={user.status === "QUALIFIED"}>
-                                    QUALIFIED
-                                </option>
+                                <option value="PENDING">PENDING</option>
+                                <option value="QUALIFIED">QUALIFIED</option>
                             </>
                         )}
                     </select>
