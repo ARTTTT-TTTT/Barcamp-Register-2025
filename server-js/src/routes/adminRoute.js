@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const jwt = require("jsonwebtoken");
+const pictureController = require("../controllers/getSlipController");
 require("dotenv").config();
 
 const Participant = require("../models/participant");
@@ -13,20 +14,20 @@ const jwtGenerate = (user) => {
     return accessToken;
 };
 
-const jwtValidate = (req, res, next) => {
-    try {
-        if (!req.headers["authorization"]) return res.sendStatus(401);
+    const jwtValidate = (req, res, next) => {
+        try {
+            if (!req.headers["authorization"]) return res.sendStatus(401);
 
-        const token = req.headers["authorization"].replace("Bearer ", "");
+            const token = req.headers["authorization"].replace("Bearer ", "");
 
-        jwt.verify(token, process.env.ADMIN_SECRET_KEY, (err) => {
-            if (err) throw new Error(error);
-        });
-        next();
-    } catch (error) {
-        return res.sendStatus(403);
-    }
-};
+            jwt.verify(token, process.env.ADMIN_SECRET_KEY, (err) => {
+                if (err) throw new Error(error);
+            });
+            next();
+        } catch (error) {
+            return res.sendStatus(403);
+        }
+    };
 
 router.post("/admin/login", (req, res) => {
     const { username, password } = req.body;
@@ -51,5 +52,7 @@ router.post("/admin/update_status", jwtValidate, (req, res) => {
         .then((data) => res.json(data))
         .catch(() => res.json({ message: "No User ID." }));
 });
+
+router.get("/picture/:filename", jwtValidate ,pictureController.getPicture);
 
 module.exports = router;
