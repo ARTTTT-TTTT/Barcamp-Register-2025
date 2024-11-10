@@ -9,7 +9,7 @@ router.get("/console", (req, res) => {
     })
 })
 
-router.post("/add-console-data", async (req, res) => {
+router.post("/console_data", async (req, res) => {
     try {
         const today = new Date();
         const yesterday = new Date(today);
