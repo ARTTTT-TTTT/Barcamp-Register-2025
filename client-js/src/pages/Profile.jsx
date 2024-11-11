@@ -7,7 +7,7 @@ import NotQualified from "../components/NotQualified";
 import Pending from "../components/Pending";
 import AppBar from "../components/AppBar";
 
-function ProfilePage() {
+function Profile() {
     const { user, Console } = useLoaderData();
     const navigate = useNavigate();
 
@@ -58,4 +58,4 @@ function ProfilePage() {
     );
 }
 
-export default ProfilePage;
+export default Profile;
