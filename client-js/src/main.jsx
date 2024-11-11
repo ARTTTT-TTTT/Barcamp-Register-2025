@@ -5,7 +5,7 @@ import App from "./App.jsx";
 import "./index.css";
 
 import FormPage from "./pages/FormPage.jsx";
-import Profile from "./pages/Profile.jsx";
+import ProfilePage from "./pages/ProfilePage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import AdminConsolePage from "./pages/AdminConsolePage.jsx";
 import SpecialRegisterPage from "./pages/SpecialRegisterPage.jsx";
@@ -43,7 +43,7 @@ const router = createBrowserRouter(
         },
         {
             path: "/profile",
-            element: <Profile />,
+            element: <ProfilePage />,
             loader: async () => {
                 let user = await getUser();
                 let Console = await getConsole();
