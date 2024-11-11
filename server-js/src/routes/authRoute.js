@@ -2,8 +2,13 @@ const router = require("express").Router();
 const passport = require("passport");
 
 const Participant = require("../models/participant");
+const SpecialPaticipant = require("../models/specialParticipant");
 const Console = require("../models/console");
 const config = require("../config");
+
+const CLIENT_URL = config.client_url;
+const SPECIAL_SECRET_URL = process.env.SPECIAL_SECRET_URL;
+const SPECIAL_SECRET_FORM_URL = process.env.SPECIAL_SECRET_FORM_URL;
 
 router.get("/login/success", (req, res) => {
     if (req.user) {
@@ -46,8 +51,49 @@ router.get("/login/success", (req, res) => {
     }
 });
 
+router.get("/special-login/success", (req, res) => {
+    if (req.user) {
+        let email = req.user.emails[0].value;
+
+        SpecialPaticipant.findOne({ email }).then(async (currentUser) => {
+            // let console_lst = await Console.findOne({ name: "control" });
+            let editable = true;
+
+            if (currentUser) {
+                res.status(200).json({
+                    error: false,
+                    message: "successfull",
+                    infomation: req.user,
+                    user: currentUser,
+                    editable,
+                    // console_lst,
+                    // cookies: req.cookies
+                });
+            } else {
+                Participant.create({ email }).then((newUser) => {
+                    res.status(200).json({
+                        error: false,
+                        message: "successfull",
+                        infomation: req.user,
+                        user: newUser,
+                        editable,
+                        // console_lst,
+                        // cookies: req.cookies
+                    });
+                });
+            }
+        });
+    } else {
+        res.status(200).json({
+            error: false,
+            message: "No session.",
+            //   cookies: req.cookies
+        });
+    }
+});
+
 router.get("/login/failed", (req, res) => {
-    res.redirect(`${config.client_url}`); // เปลี่ยนเส้นทางไปหน้า register
+    res.redirect(`${CLIENT_URL}`); // เปลี่ยนเส้นทางไปหน้า register
 });
 
 router.get("/logout", (req, res) => {
@@ -59,32 +105,65 @@ router.get("/logout", (req, res) => {
         res.status(200).clearCookie("connect.sid", {
             path: "/",
         });
-        res.redirect(`${config.client_url}`);
+        res.redirect(`${CLIENT_URL}`);
     });
 });
 
-router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }));
+// เส้นทางสำหรับ Google Login และ Callback สำหรับ user ทั่วไป
+router.get("/google", passport.authenticate("google-login", { scope: ["profile", "email"] }));
 
-router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/auth/login/failed" }), (req, res) => {
-    // ตรวจสอบสถานะของผู้ใช้หลังจากเข้าสู่ระบบสำเร็จ
+router.get("/google/callback", passport.authenticate("google-login", { failureRedirect: "/auth/login/failed" }), async (req, res) => {
     if (req.user) {
         let email = req.user.emails[0].value;
 
-        // ค้นหาผู้ใช้ในฐานข้อมูล
-        Participant.findOne({ email }).then((currentUser) => {
+        try {
+            const currentUser = await Participant.findOne({ email });
             if (currentUser) {
-                if (currentUser.status === "") {
-                    return res.redirect(`${config.client_url}/form`);
-                } else {
-                    return res.redirect(`${config.client_url}/profile`);
-                }
+                const redirectUrl = currentUser.status === "" ? `${CLIENT_URL}/form` : `${CLIENT_URL}/profile`;
+                return res.redirect(redirectUrl);
             } else {
-                return res.redirect(`${config.client_url}/form`);
+                return res.redirect(`${CLIENT_URL}/form`);
             }
-        });
+        } catch (error) {
+            console.error(error);
+            return res.redirect(`${CLIENT_URL}`);
+        }
     } else {
-        res.redirect(`${config.client_url}`);
+        return res.redirect(CLIENT_URL);
     }
 });
+
+// เส้นทางสำหรับ Special Register และ Callback สำหรับ กรณีพิเศษ
+router.get("/google/special-register", passport.authenticate("google-special-register", { scope: ["profile", "email"] }));
+
+router.get(
+    "/google/special-register/callback",
+    passport.authenticate("google-special-register", { failureRedirect: "/auth/login/failed" }),
+    async (req, res) => {
+        if (req.user) {
+            let email = req.user.emails[0].value;
+
+            // ถ้า user login ด้วย role "CONFIRMED" ไป หน้า login หลัก รอ vote
+            // ถ้าเป็น role อื่นๆ ให้ไปหน้า specioal form กรอกข้อมูลใหม่ พร้อมเป็น role "CONFIRMED" อัตโนมัติ
+            try {
+                const currentUser = await Participant.findOne({ email });
+                if (currentUser) {
+                    const redirectUrl =
+                        currentUser.status === "CONFIRMED"
+                            ? `${CLIENT_URL}`
+                            : `${CLIENT_URL}/special-register/${SPECIAL_SECRET_URL}/${SPECIAL_SECRET_FORM_URL}`;
+                    return res.redirect(redirectUrl);
+                } else {
+                    return res.redirect(`${CLIENT_URL}/special-register/${SPECIAL_SECRET_URL}/${SPECIAL_SECRET_FORM_URL}`);
+                }
+            } catch (error) {
+                console.error(error);
+                return res.redirect(`${CLIENT_URL}/special-register/${SPECIAL_SECRET_URL}`);
+            }
+        } else {
+            return res.redirect(`${CLIENT_URL}/special-register/${SPECIAL_SECRET_URL}`);
+        }
+    }
+);
 
 module.exports = router;
