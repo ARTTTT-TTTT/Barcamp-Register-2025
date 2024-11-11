@@ -8,6 +8,10 @@ const Logout = () => {
     window.open(`${config.apiPrefixAuth}/logout`, "_self");
 };
 
+const SpecialRegister = () => {
+    window.open(`${config.apiPrefixAuth}/google/special-register`, "_self");
+};
+
 const adminLogin = async (data) => {
     try {
         let res = await fetch(`${config.apiPrefixAuth}/admin/login`, {
@@ -101,4 +105,4 @@ const uploadSlip = async (data) => {
     }
 };
 
-export { Login, Logout, saveForm, uploadSlip, adminLogin, adminGetAllUsers, adminUpdateStatus };
+export { Login, Logout, SpecialRegister, saveForm, uploadSlip, adminLogin, adminGetAllUsers, adminUpdateStatus };

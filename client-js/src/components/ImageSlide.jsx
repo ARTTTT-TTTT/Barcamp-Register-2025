@@ -49,27 +49,27 @@ function ImageSlide() {
       >
         <img
           className="object-cover min-w-full h-full"
-          src="gallery/gallery1.jpg"
+          src="/gallery/gallery1.jpg"
         />
         <img
           className="object-cover min-w-full h-full"
-          src="gallery/gallery2.jpg"
+          src="/gallery/gallery2.jpg"
         />
         <img
           className="object-cover min-w-full h-full"
-          src="gallery/gallery3.jpg"
+          src="/gallery/gallery3.jpg"
         />
         <img
           className="object-cover min-w-full h-full"
-          src="gallery/gallery4.jpg"
+          src="/gallery/gallery4.jpg"
         />
         <img
           className="object-cover min-w-full h-full"
-          src="gallery/gallery5.jpg"
+          src="/gallery/gallery5.jpg"
         />
         <img
           className="object-cover min-w-full h-full"
-          src="gallery/gallery6.jpg"
+          src="/gallery/gallery6.jpg"
         />
       </div>
     </div>

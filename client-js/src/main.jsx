@@ -8,9 +8,12 @@ import FormPage from "./pages/FormPage.jsx";
 import Profile from "./pages/Profile.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import AdminConsolePage from "./pages/AdminConsolePage.jsx";
+import SpecialRegisterPage from "./pages/SpecialRegisterPage.jsx";
 
-import getUser from "./api/user.js";
+import { getUser } from "./api/user.js";
 import getConsole from "./api/console.js";
+
+import config from "./services/config.js";
 
 const router = createBrowserRouter(
     [
@@ -59,6 +62,10 @@ const router = createBrowserRouter(
         {
             path: "/admin/control-panel",
             element: <AdminConsolePage />,
+        },
+        {
+            path: `/special-register/${config.SPECIAL_SECRET_URL}`,
+            element: <SpecialRegisterPage />,
         },
     ],
     { basename: "/register" }
