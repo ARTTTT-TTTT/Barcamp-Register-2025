@@ -83,16 +83,16 @@ function AdminConsolePage() {
     };
 
     return (
-        <div>
+        <section>
             <div className="fixed top-0 left-0 flex w-full z-20 p-4 items-center bg-primary-500">
                 {/* Display the count of users for each status */}
-                <div className="flex justify-center space-x-4">
-                    <p className="text-white">| Not Qualified= {userCounts.NOT_QUALIFIED} |</p>
-                    <p className="text-white">Pending= {userCounts.PENDING} |</p>
-                    <p className="text-white">Qualified= {userCounts.QUALIFIED} |</p>
-                    <p className="text-white">Confirmed= {userCounts.CONFIRMED} |</p>
+                <div className="md:text-base text-[0.75rem] flex justify-center space-x-4 flex-grow">
+                    <p className="text-white">Not Qualified= {userCounts.NOT_QUALIFIED}</p>
+                    <p className="text-white">Pending= {userCounts.PENDING}</p>
+                    <p className="text-white">Qualified= {userCounts.QUALIFIED}</p>
+                    <p className="text-white">Confirmed= {userCounts.CONFIRMED}</p>
                 </div>
-                <button className="" onClick={logout}>
+                <button aria-label="Logout" onClick={logout} className="ml-auto">
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"
@@ -172,7 +172,7 @@ function AdminConsolePage() {
                         ))}
                 </div>
             </div>
-        </div>
+        </section>
     );
 }
 

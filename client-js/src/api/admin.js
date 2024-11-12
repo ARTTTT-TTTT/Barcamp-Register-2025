@@ -61,7 +61,7 @@ const checkSlip = async (id) => {
     try {
         let token = window.localStorage.getItem("access_token");
 
-        let res = await fetch(`${config.apiPrefixAuth}/picture/${id}`, {
+        let res = await fetch(`${config.apiPrefixAuth}/picture/${id}.png`, {
             method: "GET",
             headers: {
                 Accept: "application/json",
@@ -70,10 +70,18 @@ const checkSlip = async (id) => {
             },
         });
 
-        return await res.json();
+        // ตรวจสอบว่าข้อมูลที่ได้เป็น JSON หรือไม่
+        const contentType = res.headers.get("Content-Type");
+        if (contentType && contentType.includes("application/json")) {
+            return await res.json();
+        } else {
+            // กรณีที่ข้อมูลไม่ใช่ JSON อาจเป็นรูปภาพ หรือข้อความอื่น
+            const blob = await res.blob();
+            return URL.createObjectURL(blob); // แปลงเป็น URL เพื่อนำไปแสดงผล
+        }
     } catch (error) {
         console.error("Error fetching slip:", error);
-        return error.errors || { message: "An error occurred" };
+        return { message: "An error occurred" };
     }
 };
 

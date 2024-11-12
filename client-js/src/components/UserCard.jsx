@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import clsx from "clsx";
 
 import { checkSlip } from "../api/admin";
-import config from "../services/config";
 
 function UserCard({ user, update_status }) {
     const [collape, setCollape] = useState(false);
@@ -22,46 +21,17 @@ function UserCard({ user, update_status }) {
     });
 
     const handleViewSlip = async () => {
-        try {
-            const data = await checkSlip(user._id);
-            setSlipData(data); // เก็บข้อมูลสลิป
-            setOpenSlip(true); // เปิด modal เพื่อแสดงสลิป
-        } catch (error) {
-            console.error("Failed to load slip data:", error);
+        const data = await checkSlip(user._id);
+        if (typeof data === "string") {
+            setSlipData({ imageUrl: data }); // กรณีที่เป็นรูปภาพ
+        } else {
+            setSlipData(data); // กรณีที่เป็น JSON
         }
+        setOpenSlip(true);
     };
-
+    
     return (
         <div className="p-4 bg-white w-full rounded-lg shadow-md relative">
-            <div
-                className={clsx(
-                    "left-0 fixed p-4 top-0 z-30 duration-[0.2s] w-full h-screen bg-black/50 flex items-center justify-center",
-                    openSlip ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none"
-                )}
-            >
-                <div className="max-w-md">
-                    <div className="w-full flex justify-end py-2 relative">
-                        <button className="absolute top-4 right-2 z-10" onClick={() => setOpenSlip(false)}>
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                fill="currentColor"
-                                className="w-6 h-6 fill-red-500 bg-white rounded-full"
-                            >
-                                <path
-                                    fillRule="evenodd"
-                                    d="M5.47 5.47a.75.75 0 011.06 0L12 10.94l5.47-5.47a.75.75 0 111.06 1.06L13.06 12l5.47 5.47a.75.75 0 11-1.06 1.06L12 13.06l-5.47 5.47a.75.75 0 01-1.06-1.06L10.94 12 5.47 6.53a.75.75 0 010-1.06z"
-                                    clipRule="evenodd"
-                                />
-                            </svg>
-                        </button>
-                        <img
-                            className={clsx("w-full duration-[0.2s] rounded-md", openSlip ? "scale-100" : "scale-0")}
-                            src={user.slip ? config.apiPrefix + "/" + user.slip : null}
-                        />
-                    </div>
-                </div>
-            </div>
             <p className={clsx("absolute top-4 right-4", user.slip ? "text-green-500" : "text-red-500")}>{user.slip ? "จ่ายแล้ว" : "ยังไม่จ่าย"}</p>
             <div>
                 <p className="p-2 text-center">
@@ -69,6 +39,26 @@ function UserCard({ user, update_status }) {
                 </p>
 
                 <p className="p-2 text-center font-bold">{user.status}</p>
+                {user.slip ? (
+                    <div className="text-center">
+                        <button onClick={handleViewSlip} className="text-blue-500 underline">
+                            ดูสลิปโอนเงิน
+                        </button>
+
+                        {openSlip && (
+                            <div className="modal">
+                                <div className="modal-content">
+                                    <button onClick={() => setOpenSlip(false)}>ปิด</button>
+                                    {slipData ? (
+                                        <img src={slipData.imageUrl} alt="Slip" /> // ตรวจสอบให้แน่ใจว่า key ของรูปตรงกับ response ของคุณ
+                                    ) : (
+                                        <p>Loading...</p>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+                ) : null}
                 <div className={clsx("duration-[0.2s]", collape ? "h-80 overflow-y-auto p-2" : "h-0 overflow-hidden p-0")}>
                     <p>User ID : {user._id}</p>
                     <p>Email : {user.email}</p>
@@ -85,26 +75,6 @@ function UserCard({ user, update_status }) {
                     <p>Frequent : {user.frequent}</p>
                     <p>Rating : {user.rating}</p>
                     <p>Topic Of Interest : {user.topics_of_interest}</p>
-                    {user.slip ? (
-                        <>
-                            <button onClick={handleViewSlip} className="text-blue-500 underline">
-                                ดูสลิปโอนเงิน
-                            </button>
-
-                            {openSlip && (
-                                <div className="modal">
-                                    <div className="modal-content">
-                                        <button onClick={() => setOpenSlip(false)}>ปิด</button>
-                                        {slipData ? (
-                                            <img src={slipData.imageUrl} alt="Slip" /> // ตรวจสอบให้แน่ใจว่า key ของรูปตรงกับ response ของคุณ
-                                        ) : (
-                                            <p>Loading...</p>
-                                        )}
-                                    </div>
-                                </div>
-                            )}
-                        </>
-                    ) : null}
                 </div>
                 <div className="w-full flex items-center justify-center">
                     <button onClick={() => setCollape((pre) => !pre)}>
