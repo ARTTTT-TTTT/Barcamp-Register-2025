@@ -9,8 +9,9 @@ import ProfilePage from "./pages/ProfilePage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
 import AdminConsolePage from "./pages/AdminConsolePage.jsx";
 import SpecialRegisterPage from "./pages/SpecialRegisterPage.jsx";
+import SpecialFormPage from "./pages/SpecialFormPage.jsx";
 
-import { getUser } from "./api/user.js";
+import { getUser, getSpecialUser } from "./api/user.js";
 import getConsole from "./api/console.js";
 
 import config from "./services/config.js";
@@ -66,6 +67,16 @@ const router = createBrowserRouter(
         {
             path: `/special-register/${config.SPECIAL_SECRET_URL}`,
             element: <SpecialRegisterPage />,
+        },
+
+        {
+            path: `/special-register/${config.SPECIAL_SECRET_URL}/${config.SPECIAL_SECRET_FORM_URL}`,
+            element: <SpecialFormPage />,
+            loader: async () => {
+                let user = await getSpecialUser();
+
+                return { user };
+            },
         },
     ],
     { basename: "/register" }

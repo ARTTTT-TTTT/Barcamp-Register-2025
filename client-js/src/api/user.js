@@ -18,7 +18,7 @@ const getUser = async () => {
     }
 };
 
-const getUserSpecial = async () => {
+const getSpecialUser = async () => {
     try {
         let user = await fetch(`${config.apiPrefixAuth}/special-login/success`, {
             method: "GET",
@@ -36,4 +36,4 @@ const getUserSpecial = async () => {
     }
 };
 
-export { getUser, getUserSpecial };
+export { getUser, getSpecialUser };

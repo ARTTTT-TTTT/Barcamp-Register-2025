@@ -2,7 +2,6 @@ const router = require("express").Router();
 const passport = require("passport");
 
 const Participant = require("../models/participant");
-const SpecialPaticipant = require("../models/specialParticipant");
 const Console = require("../models/console");
 const config = require("../config");
 
@@ -55,7 +54,7 @@ router.get("/special-login/success", (req, res) => {
     if (req.user) {
         let email = req.user.emails[0].value;
 
-        SpecialPaticipant.findOne({ email }).then(async (currentUser) => {
+        Participant.findOne({ email }).then(async (currentUser) => {
             // let console_lst = await Console.findOne({ name: "control" });
             let editable = true;
 
