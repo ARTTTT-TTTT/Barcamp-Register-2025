@@ -1,47 +1,77 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import Swal from "sweetalert2";
+
+import { postConsole } from "../api/console";
+
+const formatDate = (date) => {
+    return new Date(date).toISOString().split("T")[0]; // แปลงเป็น YYYY-MM-DD
+};
 
 function ConsoleCard({ Console }) {
-    const [isVoteEnabled, setIsVoteEnabled] = useState(Console.vote); // Switch สำหรับ vote
-    const [startDate, setStartDate] = useState(Console.start_register || new Date().toISOString().split("T")[0]); // Start Register
-    const [endDate, setEndDate] = useState(Console.end_register || new Date().toISOString().split("T")[0]); // End Register
+    const [isVoteEnabled, setIsVoteEnabled] = useState(Console.vote);
+    const [startDate, setStartDate] = useState(Console.start_register ? formatDate(Console.start_register) : formatDate(new Date()));
+    const [endDate, setEndDate] = useState(Console.end_register ? formatDate(Console.end_register) : formatDate(new Date()));
 
     const [prevStartDate, setPrevStartDate] = useState("");
     const [prevEndDate, setPrevEndDate] = useState("");
     const [prevIsVoteEnabled, setPrevIsVoteEnabled] = useState(false);
 
+    
+
     const saveChanges = async () => {
-        // บันทึกค่าเก่าไว้
+        // เก็บข้อมูลก่อนหน้านี้เพื่อนำไปใช้หากกด Cancel
         setPrevStartDate(startDate);
         setPrevEndDate(endDate);
         setPrevIsVoteEnabled(isVoteEnabled);
 
-        // เตรียมข้อมูลที่ต้องการส่งไปยัง API
-        const payload = {
-            vote: isVoteEnabled,
-            start_register: startDate,
-            end_register: endDate,
-        };
-
         try {
-            // ทำการส่งข้อมูล POST ไปยัง API
-            const response = await fetch("YOUR_API_ENDPOINT", {
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json",
-                },
-                body: JSON.stringify(payload),
+            // ส่งข้อมูลไปยัง API เพื่ออัปเดตข้อมูล
+            const response = await postConsole({
+                start_register: startDate,
+                end_register: endDate,
+                vote: isVoteEnabled, // ส่งค่า vote ที่อัปเดต
             });
 
-            // ตรวจสอบสถานะการตอบกลับจาก API
-            if (!response.ok) {
-                throw new Error("Failed to save changes");
+            // ตรวจสอบว่า response มาจาก API หรือไม่
+            if (response && response.error) {
+                console.log("API Error:", response.error); // หากเกิดข้อผิดพลาดจาก API
+                // แสดง Swal เมื่อเกิดข้อผิดพลาด
+                Swal.fire({
+                    title: "แจ้งเตือน",
+                    text: `เกิดข้อผิดพลาด: ${response.error}`,
+                    icon: "error",
+                    confirmButtonText: "รับทราบ",
+                    confirmButtonColor: "#FF8C00",
+                });
+                return; // หยุดการทำงานของฟังก์ชันเมื่อมีข้อผิดพลาด
             }
 
-            const result = await response.json();
-            console.log("Data saved successfully:", result);
+            const formattedStartDate = formatDate(response.start_register);
+            const formattedEndDate = formatDate(response.end_register);
+
+            // แสดงข้อความแจ้งเตือนเมื่อข้อมูลอัปเดตสำเร็จ
+            Swal.fire({
+                title: "แจ้งเตือน",
+                html: `
+                <b>Vote Status:</b> ${response.vote ? "เปิด" : "ปิด"}<br>
+                <b>Start Register:</b> ${formattedStartDate}<br>
+                <b>End Register:</b> ${formattedEndDate}<br>
+                `,
+                text: "Update Status เรียบร้อยแล้ว",
+                icon: "success",
+                confirmButtonText: "รับทราบ",
+                confirmButtonColor: "#FF8C00",
+            });
         } catch (error) {
-            console.error("Error saving changes:", error);
+            // แสดงข้อความผิดพลาดหากเกิดข้อผิดพลาดในกระบวนการ
+            Swal.fire({
+                title: "แจ้งเตือน",
+                text: `เกิดข้อผิดพลาด: ${error.message}`,
+                icon: "error",
+                confirmButtonText: "รับทราบ",
+                confirmButtonColor: "#FF8C00",
+            });
         }
     };
 
@@ -62,9 +92,9 @@ function ConsoleCard({ Console }) {
                     <input
                         type="checkbox"
                         id="switch-component"
-                        checked={isVoteEnabled} // สถานะเปิด/ปิด
+                        checked={isVoteEnabled} // ใช้ค่า isVoteEnabled อย่างถูกต้อง
                         onChange={() => {
-                            setIsVoteEnabled((prev) => !prev);
+                            setIsVoteEnabled((prev) => !prev); // สลับค่าจาก true เป็น false หรือ false เป็น true
                         }}
                         className="peer appearance-none w-11 h-5 bg-gray-200 rounded-full checked:bg-slate-800 cursor-pointer transition-colors duration-300"
                     />

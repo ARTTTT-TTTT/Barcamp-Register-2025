@@ -22,25 +22,26 @@ const getConsole = async () => {
     }
 };
 
-const postConsole = async () => {
+const postConsole = async (data) => {
     try {
         const response = await fetch(`${config.apiPrefix}/console`, {
-            // Corrected template literal syntax
             method: "POST",
             headers: {
                 Accept: "application/json",
                 "Content-Type": "application/json",
             },
+            body: JSON.stringify(data), // ส่งข้อมูลในรูปแบบ JSON
         });
 
-        // Check the response status
         if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`); // Use template literal correctly
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
 
-        return await response.json(); // Return the parsed JSON response
+        const responseData = await response.json();
+        return responseData; // ส่งข้อมูลที่ได้จาก API
     } catch (error) {
-        return { error: error.message }; // Return error message if catch block is executed
+        console.error("Error during API call:", error);
+        return { error: error.message };
     }
 };
 
