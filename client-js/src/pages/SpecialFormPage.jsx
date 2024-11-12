@@ -8,7 +8,7 @@ import clsx from "clsx";
 import AppBar from "../components/AppBar";
 import PDPA from "../components/PDPA";
 
-import { specialSaveForm } from "../api/auth";
+import { saveForm } from "../api/auth";
 import config from "../services/config.js";
 
 function SpecialFormPage() {
@@ -59,8 +59,9 @@ function SpecialFormPage() {
         let pdpa_data = {
             email: user.infomation.emails[0].value,
             pdpa: true,
+            special: true,
         };
-        let res = await specialSaveForm(pdpa_data);
+        let res = await saveForm(pdpa_data);
         console.log(res);
         if (!res.error) {
             setPdpaPopUp(false);
@@ -193,7 +194,7 @@ function SpecialFormPage() {
         new_data["status"] = "CONFIRMED";
         new_data["special"] = true;
 
-        let res = await specialSaveForm(new_data);
+        let res = await saveForm(new_data);
 
         //PDPA
         if (res.error) {
@@ -207,13 +208,17 @@ function SpecialFormPage() {
             icon: "success",
             confirmButtonText: "รับทราบ",
             confirmButtonColor: "#FF8C00",
-        }).then(() => navigate("/register"));
+        }).then(() => navigate("/"));
     };
 
     useEffect(() => {
         // ตรวจสอบว่ามีข้อมูล user และข้อมูล infomation ก่อนเปลี่ยนเส้นทาง
         if (!user.infomation) {
             navigate(`/special-register/${config.SPECIAL_SECRET_URL}`);
+        }
+
+        if (user.user.status === "CONFIRMED") {
+            navigate("/");
         }
     }, [user, user.infomation, navigate]);
 

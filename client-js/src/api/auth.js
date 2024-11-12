@@ -87,25 +87,6 @@ const saveForm = async (data) => {
     }
 };
 
-const specialSaveForm = async (data) => {
-    try {
-        let res = await fetch(`${config.apiPrefix}/special-register`, {
-            method: "PUT",
-            credentials: "include",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                "Access-Control-Allow-Credentials": true,
-            },
-            body: JSON.stringify(data),
-        });
-
-        return await res.json();
-    } catch (error) {
-        return error.errors;
-    }
-};
-
 const uploadSlip = async (data) => {
     try {
         let res = await fetch(`${config.apiPrefix}/slip`, {
@@ -124,4 +105,4 @@ const uploadSlip = async (data) => {
     }
 };
 
-export { Login, Logout, SpecialRegister, saveForm, specialSaveForm, uploadSlip, adminLogin, adminGetAllUsers, adminUpdateStatus };
+export { Login, Logout, SpecialRegister, saveForm, uploadSlip, adminLogin, adminGetAllUsers, adminUpdateStatus };
