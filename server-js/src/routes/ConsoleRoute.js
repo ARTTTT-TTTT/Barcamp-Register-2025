@@ -30,9 +30,16 @@ router.post("/console", async (req, res) => {
             return res.status(400).json({ message: "Missing required fields." });
         }
 
-        // Parse and format dates to the desired ISO format with timezone offset
-        const startDate = DateTime.fromISO(start_register, { zone: "Asia/Bangkok" }).toISO();
-        const endDate = DateTime.fromISO(end_register, { zone: "Asia/Bangkok" }).toISO();
+        // Parse start_register date, add 1 day, set time zone to Thailand, and format as ISO
+        const startDate = DateTime.fromISO(start_register, { zone: "utc" }) // Ensure parsing as UTC
+            .setZone("Asia/Bangkok") // Set to Thailand time zone (UTC +7)
+            .toISO(); // Convert to ISO format
+
+        // Parse end_register date, add 1 day, set time to 23:59:59, set time zone to Thailand, and format as ISO
+        const endDate = DateTime.fromISO(end_register, { zone: "utc" }) // Ensure parsing as UTC
+            .set({ hour: 23, minute: 59, second: 59 }) // Set time to 23:59:59
+            .setZone("Asia/Bangkok") // Set to Thailand time zone (UTC +7)
+            .toISO(); // Convert to ISO format
 
         // Validate the date format after conversion
         if (!startDate || !endDate) {
@@ -60,5 +67,7 @@ router.post("/console", async (req, res) => {
         res.status(500).json({ message: "Internal server error" });
     }
 });
+
+
 
 module.exports = router;
