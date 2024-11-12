@@ -29,7 +29,7 @@ function ProfilePage() {
         <>
             <AppBar />
             <div className="container mx-auto max-w-xl">
-                <div className="flex flex-col items-center space-y-5 md:mt-24 pt-24 h-fit min-h-screen md:min-h-fit max-h-fit p-4 bg-white rounded-xl shadow-lg">
+                <div className="flex flex-col items-center space-y-5 md:mt-24 pt-24 md:pb-24 h-fit min-h-screen md:min-h-fit max-h-fit p-4 bg-white rounded-xl shadow-lg">
                     <img src={user.infomation.photos[0].value} alt="" className="w-24 h-24 object-cover rounded-full shadow-md" />
                     <p>
                         {user.user.firstName} {user.user.lastName}

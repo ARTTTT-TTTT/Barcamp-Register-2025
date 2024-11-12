@@ -2,7 +2,7 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import Swal from "sweetalert2";
 
-import { adminLogin } from "../api/auth";
+import { adminLogin } from "../api/admin";
 
 function AdminPage() {
     const navigate = useNavigate();

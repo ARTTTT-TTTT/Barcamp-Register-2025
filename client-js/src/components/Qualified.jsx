@@ -53,9 +53,15 @@ function Qualified({ user }) {
             </div>
             {/* ถ้ามี previewURL ให้แสดงภาพ, ถ้าไม่มีให้แสดงข้อความ */}
             {previewURL ? (
-                <div className="w-full h-64 overflow-hidden mt-5 mb-4 shadow-md rounded-xl">
-                    <img className="object-contain w-full h-full" src={previewURL} alt="Uploaded Slip Preview" />
-                </div>
+                <>
+                    <div className="w-full h-64 overflow-hidden mt-5 mb-4 shadow-md rounded-xl">
+                        <img className="object-contain w-full h-full" src={previewURL} alt="Uploaded Slip Preview" />
+                    </div>
+                    <div className="p-4 w-full text-center bg-white rounded-xl text-green-500">
+                        <p>ทางเราได้รับสลิปเรียบร้อยแล้ว</p>
+                        <p>กรุณารอการตรวจสอบ</p>
+                    </div>
+                </>
             ) : slip_file ? (
                 <div className="p-4 w-full text-center bg-white rounded-xl text-green-500">
                     <p>ทางเราได้รับสลิปเรียบร้อยแล้ว</p>
