@@ -72,6 +72,10 @@ const ParticipantSchema = new Schema({
   topics_of_interest: {
     type: String,
     default: "",
+  },
+  isSpecial:{
+    type: Boolean,
+    default: false,
   }
 });
 
