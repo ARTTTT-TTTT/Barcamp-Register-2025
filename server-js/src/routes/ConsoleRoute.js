@@ -13,7 +13,7 @@ router.get("/console", async (req, res) => {
         }
 
         // Respond with the found console data
-        res.status(200).json({ message: "Console data retrieved successfully", data: consoleData });
+        res.status(200).json(consoleData);
     } catch (error) {
         console.error("Error retrieving console data:", error);
         res.status(500).json({ message: "Internal server error" });
@@ -54,7 +54,7 @@ router.post("/console", async (req, res) => {
         }
 
         // Respond with success
-        res.status(200).json({ message: "Console data updated successfully", data: updatedConsole });
+        res.status(200).json(updatedConsole);
     } catch (error) {
         console.error("Error updating console data:", error);
         res.status(500).json({ message: "Internal server error" });
