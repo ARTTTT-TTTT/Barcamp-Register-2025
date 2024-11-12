@@ -59,7 +59,7 @@ function SpecialFormPage() {
         let pdpa_data = {
             email: user.infomation.emails[0].value,
             pdpa: true,
-            special: true,
+            isSpecial: true,
         };
         let res = await saveForm(pdpa_data);
         console.log(res);
