@@ -12,7 +12,7 @@ import SpecialRegisterPage from "./pages/SpecialRegisterPage.jsx";
 import SpecialFormPage from "./pages/SpecialFormPage.jsx";
 
 import { getUser, getSpecialUser } from "./api/user.js";
-import getConsole from "./api/console.js";
+import { getConsole } from "./api/console.js";
 
 import config from "./services/config.js";
 
@@ -63,6 +63,10 @@ const router = createBrowserRouter(
         {
             path: "/admin/control-panel",
             element: <AdminConsolePage />,
+            loader: async () => {
+                let Console = await getConsole();
+                return { Console };
+            },
         },
         {
             path: `/special-register/${config.SPECIAL_SECRET_URL}`,

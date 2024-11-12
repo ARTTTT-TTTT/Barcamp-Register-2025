@@ -1,9 +1,9 @@
 const { DateTime } = require("luxon");
 const express = require("express");
 const router = express.Router();
-const Console = require("../models/console")
+const Console = require("../models/console");
 
-router.get("/console_data", async (req, res) => {
+router.get("/console", async (req, res) => {
     try {
         // Find the console data document with `name: "control"`
         const consoleData = await Console.findOne({ name: "control" });
@@ -14,14 +14,13 @@ router.get("/console_data", async (req, res) => {
 
         // Respond with the found console data
         res.status(200).json({ message: "Console data retrieved successfully", data: consoleData });
-
     } catch (error) {
         console.error("Error retrieving console data:", error);
         res.status(500).json({ message: "Internal server error" });
     }
 });
 
-router.post("/console_data", async (req, res) => {
+router.post("/console", async (req, res) => {
     try {
         // Destructure the data from the request body
         const { start_register, end_register, vote } = req.body;
@@ -43,11 +42,11 @@ router.post("/console_data", async (req, res) => {
         // Update console data in the database
         const updatedConsole = await Console.findOneAndUpdate(
             { name: "control" }, // Always find the document with the 'name' as 'control'
-            { 
-                start_register: startDate, 
-                end_register: endDate, 
-                vote: vote // Update the vote field
-            }, 
+            {
+                start_register: startDate,
+                end_register: endDate,
+                vote: vote, // Update the vote field
+            }
         );
 
         if (!updatedConsole) {
@@ -56,7 +55,6 @@ router.post("/console_data", async (req, res) => {
 
         // Respond with success
         res.status(200).json({ message: "Console data updated successfully", data: updatedConsole });
-
     } catch (error) {
         console.error("Error updating console data:", error);
         res.status(500).json({ message: "Internal server error" });
