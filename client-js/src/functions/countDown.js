@@ -7,12 +7,7 @@ const countDown = (end) => {
     localTime.setHours(localTime.getHours() - 7); // Adjust for UTC+7
 
     let time_start_register = localTime.getTime()
-    //console.log(now)
-    console.log(time_start_register)
-    // Calculate the difference in time (in milliseconds)
     let distance_start_1 = time_start_register - now;
-    //console.log(distance_start_1)
-
 
     // Calculate the number of days, hours, minutes, and seconds
     let days = Math.floor(distance_start_1 / (1000 * 60 * 60 * 24));

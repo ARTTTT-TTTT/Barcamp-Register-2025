@@ -24,7 +24,6 @@ const router = createBrowserRouter(
             loader: async () => {
                 let user = await getUser();
                 let Console = await getConsole();
-                console.log(Console)
                 return { user, Console };
             },
         },
