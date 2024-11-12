@@ -3,6 +3,24 @@ const express = require("express");
 const router = express.Router();
 const Console = require("../models/console")
 
+router.get("/console_data", async (req, res) => {
+    try {
+        // Find the console data document with `name: "control"`
+        const consoleData = await Console.findOne({ name: "control" });
+
+        if (!consoleData) {
+            return res.status(404).json({ message: "Console data not found." });
+        }
+
+        // Respond with the found console data
+        res.status(200).json({ message: "Console data retrieved successfully", data: consoleData });
+
+    } catch (error) {
+        console.error("Error retrieving console data:", error);
+        res.status(500).json({ message: "Internal server error" });
+    }
+});
+
 router.post("/console_data", async (req, res) => {
     try {
         // Destructure the data from the request body
