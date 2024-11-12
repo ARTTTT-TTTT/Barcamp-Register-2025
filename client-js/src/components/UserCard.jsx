@@ -2,11 +2,13 @@ import { useState } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
+import { checkSlip } from "../api/admin";
 import config from "../services/config";
 
 function UserCard({ user, update_status }) {
     const [collape, setCollape] = useState(false);
     const [openSlip, setOpenSlip] = useState(false);
+    const [slipData, setSlipData] = useState(null);
     const [status, setStatus] = useState(() => {
         if (user.status === "PENDING") {
             return "QUALIFIED";
@@ -18,6 +20,16 @@ function UserCard({ user, update_status }) {
             return "PENDING";
         }
     });
+
+    const handleViewSlip = async () => {
+        try {
+            const data = await checkSlip(user._id);
+            setSlipData(data); // เก็บข้อมูลสลิป
+            setOpenSlip(true); // เปิด modal เพื่อแสดงสลิป
+        } catch (error) {
+            console.error("Failed to load slip data:", error);
+        }
+    };
 
     return (
         <div className="p-4 bg-white w-full rounded-lg shadow-md relative">
@@ -74,9 +86,24 @@ function UserCard({ user, update_status }) {
                     <p>Rating : {user.rating}</p>
                     <p>Topic Of Interest : {user.topics_of_interest}</p>
                     {user.slip ? (
-                        <button onClick={() => setOpenSlip(true)} className="text-blue-500 underline">
-                            ดูสลิปโอนเงิน
-                        </button>
+                        <>
+                            <button onClick={handleViewSlip} className="text-blue-500 underline">
+                                ดูสลิปโอนเงิน
+                            </button>
+
+                            {openSlip && (
+                                <div className="modal">
+                                    <div className="modal-content">
+                                        <button onClick={() => setOpenSlip(false)}>ปิด</button>
+                                        {slipData ? (
+                                            <img src={slipData.imageUrl} alt="Slip" /> // ตรวจสอบให้แน่ใจว่า key ของรูปตรงกับ response ของคุณ
+                                        ) : (
+                                            <p>Loading...</p>
+                                        )}
+                                    </div>
+                                </div>
+                            )}
+                        </>
                     ) : null}
                 </div>
                 <div className="w-full flex items-center justify-center">

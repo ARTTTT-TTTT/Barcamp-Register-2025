@@ -4,7 +4,7 @@ import Swal from "sweetalert2";
 import clsx from "clsx";
 
 import UserCard from "../components/UserCard";
-import { adminUpdateStatus, adminGetAllUsers } from "../api/auth";
+import { adminUpdateStatus, adminGetAllUsers } from "../api/admin";
 
 function AdminConsolePage() {
     const navigate = useNavigate();
@@ -84,15 +84,15 @@ function AdminConsolePage() {
 
     return (
         <div>
-            <div className="fixed top-0 left-0 flex w-full z-20 p-4 items-center justify-between bg-primary-500">
+            <div className="fixed top-0 left-0 flex w-full z-20 p-4 items-center bg-primary-500">
                 {/* Display the count of users for each status */}
-                <div className="flex space-x-4">
+                <div className="flex justify-center space-x-4">
                     <p className="text-white">| Not Qualified= {userCounts.NOT_QUALIFIED} |</p>
                     <p className="text-white">Pending= {userCounts.PENDING} |</p>
                     <p className="text-white">Qualified= {userCounts.QUALIFIED} |</p>
                     <p className="text-white">Confirmed= {userCounts.CONFIRMED} |</p>
                 </div>
-                <button onClick={logout}>
+                <button className="" onClick={logout}>
                     <svg
                         xmlns="http://www.w3.org/2000/svg"
                         fill="none"

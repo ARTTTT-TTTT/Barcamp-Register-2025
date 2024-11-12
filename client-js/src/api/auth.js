@@ -12,62 +12,6 @@ const SpecialRegister = () => {
     window.open(`${config.apiPrefixAuth}/google/special-register`, "_self");
 };
 
-const adminLogin = async (data) => {
-    try {
-        let res = await fetch(`${config.apiPrefixAuth}/admin/login`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-            },
-            body: JSON.stringify(data),
-        });
-
-        return await res.json();
-    } catch (error) {
-        return error.errors;
-    }
-};
-
-const adminGetAllUsers = async () => {
-    try {
-        let token = window.localStorage.getItem("access_token");
-
-        let res = await fetch(`${config.apiPrefixAuth}/admin/all_users`, {
-            method: "GET",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-        });
-
-        return await res.json();
-    } catch (error) {
-        return error.errors;
-    }
-};
-
-const adminUpdateStatus = async (data) => {
-    try {
-        let token = window.localStorage.getItem("access_token");
-
-        let res = await fetch(`${config.apiPrefixAuth}/admin/update_status`, {
-            method: "POST",
-            headers: {
-                Accept: "application/json",
-                "Content-Type": "application/json",
-                Authorization: `Bearer ${token}`,
-            },
-            body: JSON.stringify(data),
-        });
-
-        return await res.json();
-    } catch (error) {
-        return error.errors;
-    }
-};
-
 const saveForm = async (data) => {
     try {
         let res = await fetch(`${config.apiPrefix}/register`, {
@@ -105,4 +49,4 @@ const uploadSlip = async (data) => {
     }
 };
 
-export { Login, Logout, SpecialRegister, saveForm, uploadSlip, adminLogin, adminGetAllUsers, adminUpdateStatus };
+export { Login, Logout, SpecialRegister, saveForm, uploadSlip };
