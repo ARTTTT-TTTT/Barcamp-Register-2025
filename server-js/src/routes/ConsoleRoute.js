@@ -22,10 +22,8 @@ router.get("/console", async (req, res) => {
 
 router.post("/console", async (req, res) => {
     try {
-        // Destructure the data from the request body
         const { start_register, end_register, vote } = req.body;
 
-        // Validate that the necessary fields are provided
         if (!start_register || !end_register || vote === undefined) {
             return res.status(400).json({ message: "Missing required fields." });
         }
@@ -41,27 +39,25 @@ router.post("/console", async (req, res) => {
             .setZone("Asia/Bangkok") // Set to Thailand time zone (UTC +7)
             .toISO(); // Convert to ISO format
 
-        // Validate the date format after conversion
         if (!startDate || !endDate) {
             return res.status(400).json({ message: "Invalid date format." });
         }
 
-        // Update console data in the database
         const updatedConsole = await Console.findOneAndUpdate(
-            { name: "control" }, // Always find the document with the 'name' as 'control'
+            { name: "control" },
             {
                 start_register: startDate,
                 end_register: endDate,
-                vote: vote, // Update the vote field
-            }
+                vote: vote,
+            },
+            { new: true }
         );
 
         if (!updatedConsole) {
             return res.status(404).json({ message: "Console data not found to update." });
         }
 
-        // Respond with success
-        res.status(200).json(updatedConsole);
+        res.status(200).json(updatedConsole); // ตอบกลับข้อมูลที่ได้รับการอัปเดต
     } catch (error) {
         console.error("Error updating console data:", error);
         res.status(500).json({ message: "Internal server error" });

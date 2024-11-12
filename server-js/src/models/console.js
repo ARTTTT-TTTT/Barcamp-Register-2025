@@ -1,21 +1,25 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const ConsoleSchema = new Schema({
     start_register: {
         type: Date,
-        default: null // Set a default date if appropriate
+        default: Date.now, // Use the current date and time as the default
     },
     end_register: {
         type: Date,
-        default: null
+        default: Date.now, // Use the current date and time as the default
     },
     name: {
         type: String,
         default: "control",
-        index: true // Indexing for optimized searches
-    }
+        index: true, // Indexing for optimized searches
+    },
+    vote: {
+        type: Boolean,
+        default: false, // Assuming vote is a boolean, default value is false
+    },
 });
 
-const Console = mongoose.model('Console', ConsoleSchema);
+const Console = mongoose.model("Console", ConsoleSchema);
 module.exports = Console;
