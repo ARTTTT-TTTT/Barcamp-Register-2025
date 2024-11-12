@@ -1,3 +1,8 @@
+const { DateTime } = require("luxon");
+const express = require("express");
+const router = express.Router();
+const Console = require("../models/console")
+
 router.post("/console_data", async (req, res) => {
     try {
         // Destructure the data from the request body
@@ -8,11 +13,12 @@ router.post("/console_data", async (req, res) => {
             return res.status(400).json({ message: "Missing required fields." });
         }
 
-        // If you want to ensure that `start_register` and `end_register` are valid dates:
-        const startDate = new Date(start_register);
-        const endDate = new Date(end_register);
+        // Parse and format dates to the desired ISO format with timezone offset
+        const startDate = DateTime.fromISO(start_register, { zone: "Asia/Bangkok" }).toISO();
+        const endDate = DateTime.fromISO(end_register, { zone: "Asia/Bangkok" }).toISO();
 
-        if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+        // Validate the date format after conversion
+        if (!startDate || !endDate) {
             return res.status(400).json({ message: "Invalid date format." });
         }
 
