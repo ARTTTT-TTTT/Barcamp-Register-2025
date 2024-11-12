@@ -1,30 +1,36 @@
 const path = require("path");
 const fs = require("fs");
+const Paticipant = require("../models/participant");
 
-exports.getPicture = (req, res) => {
-  // Get the full file path from req and extract the filename
-  let filePath = req.params.slip;
-
-  // Remove the "uploads\" part from the path
-  const filename = filePath.replace(/^uploads[\\\/]/, ''); // Regular expression to remove 'uploads\' or 'uploads/'
-
-  // Construct the full file path
-  const fullFilePath = path.join(__dirname, "../../uploads", filename);
-
-  console.log("File path:", fullFilePath);
-
-  // Check if the file exists
-  fs.exists(fullFilePath, (exists) => {
-    if (!exists) {
-      return res.status(404).send("File not found");
+exports.getPicture = async (req, res) => {
+  try {
+    const update_user = await Paticipant.findOne({ email: res.params });
+    console.log(update_user)
+    
+    if (!update_user || !update_user.slip) { // assuming 'slip' holds the path
+      return res.status(404).send("Participant or picture not found");
     }
 
-    // Send the file if it exists
-    res.sendFile(fullFilePath, (err) => {
+    // Extract the filename from the stored file path
+    const filename = update_user.slip.replace(/^uploads[\\\/]/, ''); // Adjust as needed for the actual field
+    const fullFilePath = path.join(__dirname, "../../uploads", filename);
+
+    // Check if the file exists using fs.access
+    fs.access(fullFilePath, fs.constants.F_OK, (err) => {
       if (err) {
-        console.error("Error sending file:", err);
-        res.status(500).send("Internal Server Error");
+        return res.status(404).send("File not found");
       }
+
+      // Send the file if it exists
+      res.sendFile(fullFilePath, (err) => {
+        if (err) {
+          console.error("Error sending file:", err);
+          res.status(500).send("Internal Server Error");
+        }
+      });
     });
-  });
+  } catch (error) {
+    console.error("Error retrieving picture:", error);
+    res.status(500).send("Internal Server Error");
+  }
 };
