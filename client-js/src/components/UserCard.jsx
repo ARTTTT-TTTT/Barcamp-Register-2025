@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import clsx from "clsx";
 
@@ -8,17 +8,19 @@ function UserCard({ user, update_status }) {
     const [collape, setCollape] = useState(false);
     const [openSlip, setOpenSlip] = useState(false);
     const [slipData, setSlipData] = useState(null);
-    const [status, setStatus] = useState(() => {
+    const [status, setStatus] = useState("");
+
+    useEffect(() => {
         if (user.status === "PENDING") {
-            return "QUALIFIED";
+            setStatus("QUALIFIED");
         } else if (user.status === "QUALIFIED") {
-            return "CONFIRMED";
+            setStatus("CONFIRMED");
         } else if (user.status === "CONFIRMED") {
-            return "QUALIFIED";
+            setStatus("QUALIFIED");
         } else {
-            return "PENDING";
+            setStatus("PENDING");
         }
-    });
+    }, [user.status]);
 
     const handleViewSlip = async () => {
         const data = await checkSlip(user._id);
@@ -29,7 +31,7 @@ function UserCard({ user, update_status }) {
         }
         setOpenSlip(true);
     };
-    
+
     return (
         <div className="p-4 bg-white w-full rounded-lg shadow-md relative">
             <p className={clsx("absolute top-4 right-4", user.slip ? "text-green-500" : "text-red-500")}>{user.slip ? "จ่ายแล้ว" : "ยังไม่จ่าย"}</p>
@@ -41,14 +43,19 @@ function UserCard({ user, update_status }) {
                 <p className="p-2 text-center font-bold">{user.status}</p>
                 {user.slip ? (
                     <div className="text-center">
-                        <button onClick={handleViewSlip} className="text-blue-500 underline">
-                            ดูสลิปโอนเงิน
-                        </button>
+                        {openSlip ? (
+                            <button onClick={() => setOpenSlip(false)} className="mb-2 text-red-700 underline">
+                                ปิด
+                            </button>
+                        ) : (
+                            <button onClick={handleViewSlip} className="mb-2 text-blue-500 underline">
+                                ดูสลิปโอนเงิน
+                            </button>
+                        )}
 
                         {openSlip && (
                             <div className="modal">
                                 <div className="modal-content">
-                                    <button onClick={() => setOpenSlip(false)}>ปิด</button>
                                     {slipData ? (
                                         <img src={slipData.imageUrl} alt="Slip" /> // ตรวจสอบให้แน่ใจว่า key ของรูปตรงกับ response ของคุณ
                                     ) : (
