@@ -248,7 +248,7 @@ function FormPage() {
 					text: `คุณสามารถลงทะเบียนได้ที่หน้างาน`,
 					icon: "error",
 					confirmButtonText: "รับทราบ",
-					confirmButtonColor: "#3b9190",
+					confirmButtonColor: "#6ab6b4",
 					allowOutsideClick: false,
 					allowEscapeKey: false,
 					footer: '<a href="#" id="more-info">ทำไมฉันถึงเห็นสิ่งนี้ ?</a>', // เพิ่มลิงก์ใน footer
@@ -267,7 +267,7 @@ function FormPage() {
 							text: "บัญชีที่คุณใช้เข้าสู่ระบบไม่มีข้อมูลบันทึกไว้ หากต้องการข้อมูลเพิ่มเติมหรือต้องการความช่วยเหลือ สามารถติดต่อสอบถามได้ที่ Inbox Facebook: Barcamp Songkhla",
 							icon: "info",
 							confirmButtonText: "รับทราบ",
-							confirmButtonColor: "#3b9190",
+							confirmButtonColor: "#6ab6b4",
 						}).then((result) => {
 							if (result.isConfirmed) {
 								Logout();
