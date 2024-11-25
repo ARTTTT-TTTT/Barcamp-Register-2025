@@ -98,8 +98,8 @@ const RegisterDemoPage = () => {
 				<p className="mb-5 bg-gradient-to-b from-secondary-100 to-primary-100 bg-clip-text text-transparent drop-shadow-2xl font-bold text-3xl">
 					ลงทะเบียนเข้าร่วมงาน
 				</p>
-				<div className="w-64 h-64 ">
-					<img src="/barcamp9_with_bg.png" alt="Logo" />
+				<div className="w-64 h-64 bg-white rounded-full p-2 bg-opacity-50 ">
+					<img src="/logo.png" alt="Logo" />
 				</div>
 				<button className="duration-[0.2s] hover:shadow-sm hover:bg-primary-600 flex items-center justify-between bg-primary-500 text-white shadow-md p-4 space-x-5 rounded-full mt-10">
 					<svg
