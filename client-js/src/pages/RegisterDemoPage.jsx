@@ -22,7 +22,7 @@ const RegisterDemoPage = () => {
 			1,
 			20000
 		);
-		camera.position.set(200, 0, 100);
+		camera.position.set(-100, 20, 200);
 
 		const controls = new OrbitControls(camera, renderer.domElement);
 		controls.maxPolarAngle = Math.PI * 0.495;
@@ -50,7 +50,7 @@ const RegisterDemoPage = () => {
 		scene.environment = pmremGenerator.fromScene(sky).texture;
 
 		// น้ำ
-		const waterGeometry = new THREE.PlaneGeometry(10000, 10000);
+		const waterGeometry = new THREE.PlaneGeometry(10000, 10000, 256, 256);
 		const water = new Water(waterGeometry, {
 			textureWidth: 512,
 			textureHeight: 512,
@@ -62,9 +62,9 @@ const RegisterDemoPage = () => {
 			),
 			alpha: 1.0,
 			sunDirection: new THREE.Vector3(),
-			sunColor: 0xfffff,
+			sunColor: 0xfff4bd,
 			waterColor: 0x001e0f,
-			distortionScale: 3.7,
+			distortionScale: 10,
 			fog: scene.fog !== undefined,
 		});
 		water.rotation.x = -Math.PI / 2;
@@ -95,10 +95,12 @@ const RegisterDemoPage = () => {
 	return (
 		<div className="h-screen overflow-hidden relative" ref={canvasRef}>
 			<div className="absolute inset-0 flex flex-col justify-center items-center z-10">
-				{/* <p className="mb-5 text-secondary-50 font-bold text-3xl">
+				<p className="mb-5 bg-gradient-to-b from-secondary-100 to-primary-100 bg-clip-text text-transparent drop-shadow-2xl font-bold text-3xl">
 					ลงทะเบียนเข้าร่วมงาน
-				</p> */}
-				<img className="w-40 h-40" src="/barcamp9_with_bg.png" alt="Logo" />
+				</p>
+				<div className="w-64 h-64 ">
+					<img src="/barcamp9_with_bg.png" alt="Logo" />
+				</div>
 				<button className="duration-[0.2s] hover:shadow-sm hover:bg-primary-600 flex items-center justify-between bg-primary-500 text-white shadow-md p-4 space-x-5 rounded-full mt-10">
 					<svg
 						xmlns="http://www.w3.org/2000/svg"
@@ -129,7 +131,7 @@ const RegisterDemoPage = () => {
 					<p className="font-bold">ลงทะเบียนด้วย Google</p>
 				</button>
 				<button
-					className="text-white text-center w-full mt-5 underline"
+					className="text-white text-center w-full mt-5 underline hover:text-secondary-100"
 					onClick={() => (window.location.href = "/")}
 				>
 					กลับไปยังหน้าหลัก
