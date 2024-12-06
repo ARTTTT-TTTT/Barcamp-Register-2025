@@ -11,6 +11,22 @@
   box-sizing: border-box;
 }
 
+html, body {
+	margin: 0;
+	padding: 0;
+	overflow: hidden;
+}
+
+canvas {
+	display: block;
+	width: 100vw;
+	height: 100vh;
+	position: fixed;
+	top: 0;
+	left: 0;
+}
+
+
 @layer base {
   .text-super-title {
     @apply text-[5.25rem] font-bold leading-[10rem] text-gray-900;

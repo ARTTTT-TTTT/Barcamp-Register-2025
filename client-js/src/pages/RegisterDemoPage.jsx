@@ -24,6 +24,7 @@ const RegisterDemoPage = () => {
 		);
 		camera.position.set(-100, 20, 200);
 
+		// ตั้งค่าควบคุม
 		const controls = new OrbitControls(camera, renderer.domElement);
 		controls.maxPolarAngle = Math.PI * 0.495;
 		controls.target.set(0, 10, 0);
@@ -78,7 +79,7 @@ const RegisterDemoPage = () => {
 		};
 		animate();
 
-		// ไซด์
+		// ปรับขนาดหน้าจอ
 		const onWindowResize = () => {
 			camera.aspect = window.innerWidth / window.innerHeight;
 			camera.updateProjectionMatrix();
@@ -93,9 +94,9 @@ const RegisterDemoPage = () => {
 	}, []);
 
 	return (
-		<div className="h-screen overflow-hidden relative" ref={canvasRef}>
-			<div className="absolute inset-0 flex flex-col justify-center items-center z-10">
-				<p className="mb-5 bg-gradient-to-b from-secondary-100 to-primary-100 bg-clip-text text-transparent drop-shadow-2xl font-bold text-3xl">
+		<div className="h-screen w-screen overflow-hidden relative" ref={canvasRef}>
+			<div className="absolute inset-0 flex flex-col justify-center items-center z-10 px-4">
+				<p className="mb-5 bg-gradient-to-b from-secondary-100 to-primary-100 bg-clip-text text-transparent drop-shadow-2xl font-bold text-3xl text-center">
 					ลงทะเบียนเข้าร่วมงาน
 				</p>
 				<div className="w-64 h-64 bg-white rounded-full p-2 bg-opacity-50 ">
