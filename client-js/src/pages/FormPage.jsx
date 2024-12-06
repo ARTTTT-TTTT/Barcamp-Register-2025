@@ -7,7 +7,7 @@ import clsx from "clsx";
 
 import AppBar from "../components/AppBar";
 import PDPA from "../components/PDPA";
-import { Logout, saveForm } from "../api/auth";
+import { saveForm, Logout } from "../api/auth";
 
 function FormPage() {
 	const { user = { user: { firstName: "" } }, Console } = useLoaderData();
@@ -248,7 +248,7 @@ function FormPage() {
 					text: `คุณสามารถลงทะเบียนได้ที่หน้างาน`,
 					icon: "error",
 					confirmButtonText: "รับทราบ",
-					confirmButtonColor: "#6ab6b4",
+					confirmButtonColor: "#FF8C00",
 					allowOutsideClick: false,
 					allowEscapeKey: false,
 					footer: '<a href="#" id="more-info">ทำไมฉันถึงเห็นสิ่งนี้ ?</a>', // เพิ่มลิงก์ใน footer
@@ -257,17 +257,19 @@ function FormPage() {
 						Logout();
 					}
 				});
+
 				document
 					.getElementById("more-info")
 					.addEventListener("click", function (event) {
 						event.preventDefault(); // ป้องกันการกระทำลิงก์ที่ทำให้หน้าเพจรีเฟรช
+
 						// แสดง Swal ใหม่ที่คุณต้องการ
 						Swal.fire({
 							title: "ข้อมูลเพิ่มเติม",
 							text: "บัญชีที่คุณใช้เข้าสู่ระบบไม่มีข้อมูลบันทึกไว้ หากต้องการข้อมูลเพิ่มเติมหรือต้องการความช่วยเหลือ สามารถติดต่อสอบถามได้ที่ Inbox Facebook: Barcamp Songkhla",
 							icon: "info",
 							confirmButtonText: "รับทราบ",
-							confirmButtonColor: "#6ab6b4",
+							confirmButtonColor: "#FF8C00",
 						}).then((result) => {
 							if (result.isConfirmed) {
 								Logout();
@@ -281,7 +283,7 @@ function FormPage() {
 	return (
 		<>
 			<AppBar />
-			<div className="container mx-auto max-w-xl">
+			<div className="container mx-auto md:max-w-xl sm:max-w-md max-w-xs">
 				{/* PDPA */}
 				{!pdpa && pdpaPopUp ? (
 					<PDPA confirm={pdpaConfirm} close={closePDPA} />
@@ -295,7 +297,7 @@ function FormPage() {
 					}}
 				>
 					{({ errors, touched }) => (
-						<Form className="p-4 w-full mx-auto flex flex-col rounded-xl space-y-3 sm:shadow-2xl mt-24 pb-4 mb-10 bg-white">
+						<Form className="p-4 w-full mx-auto flex flex-col rounded-2xl space-y-3 sm:shadow-2xl mt-24 pb-4 mb-10 bg-white">
 							<p className="text-center font-bold text-primary-500 text-xl mb-4">
 								{sectionName[currentSection]}
 							</p>
