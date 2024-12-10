@@ -5,6 +5,7 @@ import { Water } from "three/examples/jsm/objects/Water.js";
 import { Sky } from "three/examples/jsm/objects/Sky.js";
 import { motion } from "framer-motion";
 import Net from "../components/FogBackground";
+import { randFloat } from "three/src/math/MathUtils.js";
 const RegisterDemoPage = () => {
   const canvasRef = useRef(null);
 
@@ -41,7 +42,7 @@ const RegisterDemoPage = () => {
     const pmremGenerator = new THREE.PMREMGenerator(renderer);
     const sun = new THREE.Vector3();
 
-    const theta = Math.PI * (0.49 - 0.5);
+    const theta = Math.PI * 0 ;
     const phi = 2 * Math.PI * (0.205 - 0.5);
 
     sun.x = Math.cos(phi);
@@ -50,6 +51,30 @@ const RegisterDemoPage = () => {
 
     sky.material.uniforms["sunPosition"].value.copy(sun);
     scene.environment = pmremGenerator.fromScene(sky).texture;
+
+    //ดวงดาว
+    const starGeometry = new THREE.BufferGeometry();
+
+    const vertices = [];
+    const range = 200;
+    for (let i = 0; i < 500; i++) {
+      const point = new THREE.Vector3(
+        randFloat(-range, range),
+        randFloat(20, 200),
+        randFloat(-range, range)
+      );
+      vertices.push(...point);
+
+      starGeometry.setAttribute(
+        "position",
+        new THREE.BufferAttribute(new Float32Array(vertices), 3)
+      );
+
+      const starMaterial = new THREE.PointsMaterial({ color: "white" });
+      const mesh = new THREE.Points(starGeometry, starMaterial);
+
+      scene.add(mesh);
+    }
 
     // น้ำ
     const waterGeometry = new THREE.PlaneGeometry(10000, 10000, 256, 256);
