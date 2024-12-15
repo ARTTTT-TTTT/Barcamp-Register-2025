@@ -15,7 +15,6 @@ import { getUser, getSpecialUser } from "./api/user.js";
 import { getConsole } from "./api/console.js";
 
 import config from "./services/config.js";
-import RegisterDemoPage from "./pages/RegisterDemoPage.jsx";
 
 const router = createBrowserRouter(
 	[
@@ -59,10 +58,6 @@ const router = createBrowserRouter(
 		{
 			path: "/admin",
 			element: <AdminPage />,
-		},
-		{
-			path: "/demo",
-			element: <RegisterDemoPage />,
 		},
 		{
 			path: "/admin/control-panel",
