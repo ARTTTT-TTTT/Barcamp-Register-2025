@@ -1,27 +1,14 @@
-version: '3.8'
+version: "3.8"
 
 services:
-  backend:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - "5000:5000"
-    environment:
-      - DATABASE_URI=mongodb://mongo:27017/barcamp
-      - PORT=5000
-    depends_on:
-      - mongo
-    volumes:
-      - backend-data:/app/data  # You can replace '/app/data' with the actual directory you want to persist for the backend
-
-  mongo:
-    image: mongo:latest
-    volumes:
-      - mongo-data:/data/db  # Persist data for MongoDB
-    ports:
-      - "27017:27017"
+    server:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - "5000:8080"
+        volumes:
+            - uploads-data:/app/uploads
 
 volumes:
-  mongo-data:  # Volume for MongoDB data
-  backend-data:  # Volume for backend data
+    uploads-data:
