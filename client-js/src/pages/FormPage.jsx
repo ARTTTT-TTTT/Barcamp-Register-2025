@@ -136,44 +136,40 @@ function FormPage() {
 
 	//Topics
 	const [section2] = useState([
-		{
-			name: "speakingTopic",
-			label: "หัวข้อที่จะนำเสนอ",
-			type: "input",
-		},
-		{
-			name: "section",
-			label: "Section",
-			type: "option",
-			options: ["1 ชั่วโมง", "30 นาที", "ไม่มี"],
-		},
-		{
-			name: "frequent",
-			label: "เคยมางาน Barcamp สงขลา จำนวนกี่ครั้ง",
-			type: "option",
-			options: [
-				"ครั้งแรก",
-				"1 ครั้ง",
-				"2 ครั้ง",
-				"3 ครั้ง",
-				"4 ครั้ง",
-				"5 ครั้ง",
-				"6 ครั้ง",
-				"7 ครั้ง",
-			],
-		},
-		{
-			name: "rating",
-			label: "ระดับความสนใจในการเข้าร่วมเป็น Speaker",
-			type: "option",
-			options: ["มากที่สุด", "มาก", "ปานกลาง", "นิดหน่อย", "ไม่เลย"],
-		},
-		{
-			name: "topics_of_interest",
-			label: "หัวข้อที่สนใจ / เทคโนโลยี",
-			type: "input",
-		},
-	]);
+        {
+            name: "speakingTopic",
+            label: "หัวข้อที่จะนำเสนอ",
+            type: "input",
+        },
+        {
+            name: "section",
+            label: "Section",
+            type: "option",
+            options: ["1 ชั่วโมง", "30 นาที", "ไม่มี"],
+        },
+        {
+            name: "frequent",
+            label: "เคยมางาน Barcamp สงขลา จำนวนกี่ครั้ง",
+            type: "option",
+            options: ["ครั้งแรก", "1 ครั้ง", "2 ครั้ง", "3 ครั้ง", "4 ครั้ง", "5 ครั้ง", "6 ครั้ง", "7 ครั้ง"],
+        },
+        {
+            name: "reason",
+            label: "เหตุผลที่อยากเข้าร่วมงาน Barcamp สงขลา",
+            type: "input",
+        },
+        {
+            name: "rating",
+            label: "ระดับความสนใจในการเข้าร่วมเป็น Speaker",
+            type: "option",
+            options: ["มากที่สุด", "มาก", "ปานกลาง", "นิดหน่อย", "ไม่เลย"],
+        },
+        {
+            name: "topics_of_interest",
+            label: "หัวข้อที่สนใจ / เทคโนโลยี",
+            type: "input",
+        },
+    ]);
 
 	//Food
 	const [section3] = useState([

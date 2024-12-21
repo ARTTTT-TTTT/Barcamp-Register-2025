@@ -151,6 +151,11 @@ function SpecialFormPage() {
             options: ["ครั้งแรก", "1 ครั้ง", "2 ครั้ง", "3 ครั้ง", "4 ครั้ง", "5 ครั้ง", "6 ครั้ง", "7 ครั้ง"],
         },
         {
+            name: "reason",
+            label: "เหตุผลที่อยากเข้าร่วมงาน Barcamp สงขลา",
+            type: "input",
+        },
+        {
             name: "rating",
             label: "ระดับความสนใจในการเข้าร่วมเป็น Speaker",
             type: "option",
