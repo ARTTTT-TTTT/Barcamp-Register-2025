@@ -65,6 +65,10 @@ const ParticipantSchema = new Schema({
     type: String,
     default: "ครั้งแรก",
   },
+  reason: {
+    type: String,
+    default: "",
+  },
   rating: {
     type: String,
     default: "มากที่สุด",
