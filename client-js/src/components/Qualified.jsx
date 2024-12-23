@@ -49,7 +49,7 @@ function Qualified({ user }) {
                 <p className="mt-5 text-red-500 text-center text-[12px] mb-5">**เงินส่วนนี้จะได้รับคืนวันวันงาน**</p>
             </div>
             <div className="w-full h-80 shadow-md rounded-xl">
-                <img className="w-full h-full object-contain" src="/QRCODE.jpg" />
+                <img className="w-full h-full object-contain" src="/QRCODE.jpg" alt="QRCODE"/>
             </div>
             {/* ถ้ามี previewURL ให้แสดงภาพ, ถ้าไม่มีให้แสดงข้อความ */}
             {previewURL ? (

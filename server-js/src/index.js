@@ -13,7 +13,6 @@ const participantRoute = require("./routes/participantRoute");
 const ConsoleRoute = require("./routes/ConsoleRoute");
 const adminRoute = require("./routes/adminRoute");
 const voteRoute = require("./routes/voteRoute");
-const config = require("./config");
 
 //mongoose.set("strictQuery", true);
 

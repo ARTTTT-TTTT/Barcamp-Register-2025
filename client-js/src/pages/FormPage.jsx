@@ -352,36 +352,27 @@ function FormPage() {
 
 								if (data.type === "option") {
 									return (
-										<div key={i} className="pb-3">
-											<p className="mb-1">{data.label}</p>
-											{data.name === "size" ? (
-												<div className="w-full h-96 p-4">
-													<img
-														className="w-full h-full object-contain"
-														src="/size.png"
-													/>
-												</div>
-											) : null}
-											<Field
-												disabled={
-													!(
-														user.editable &&
-														(user.user.status === "PENDING" ||
-															user.user.status === "")
-													)
-												}
-												className="p-2 bg-gray-100 w-full outline-none rounded-lg"
-												name={data.name}
-												as="select"
-											>
-												{data.options.map((option, i) => (
-													<option value={option} key={i}>
-														{option}
-													</option>
-												))}
-											</Field>
-										</div>
-									);
+                                        <div key={i} className="pb-3">
+                                            <p className="mb-1">{data.label}</p>
+                                            {data.name === "size" ? (
+                                                <div className="w-full h-96 p-4">
+                                                    <img className="w-full h-full object-contain" src="/size.png" alt="size" />
+                                                </div>
+                                            ) : null}
+                                            <Field
+                                                disabled={!(user.editable && (user.user.status === "PENDING" || user.user.status === ""))}
+                                                className="p-2 bg-gray-100 w-full outline-none rounded-lg"
+                                                name={data.name}
+                                                as="select"
+                                            >
+                                                {data.options.map((option, i) => (
+                                                    <option value={option} key={i}>
+                                                        {option}
+                                                    </option>
+                                                ))}
+                                            </Field>
+                                        </div>
+                                    );
 								}
 							})}
 

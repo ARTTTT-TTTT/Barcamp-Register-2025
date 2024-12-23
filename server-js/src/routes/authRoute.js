@@ -1,6 +1,7 @@
 const router = require("express").Router();
 const passport = require("passport");
 
+require("dotenv").config();
 const Participant = require("../models/participant");
 const Console = require("../models/console");
 const config = require("../config");
