@@ -34,6 +34,7 @@ function FormPage() {
 			speakingTopic: Yup.string().required("กรุณากรอกหัวข้อที่จะนำเสนอ"),
 			section: Yup.string().required("กรุณาเลือก Section ที่จะพูด"),
 			frequent: Yup.string().required("กรุณาเลือกจำนวนครั้งที่เคยมาเข้าร่วม"),
+			reason: Yup.string().required("กรุณากรอกเหตุผลที่อยากเข้าร่วม"),
 			rating: Yup.string().required(
 				"กรุณาเลือกระดับความสนใจในการเข้าร่วมเป็น Speaker"
 			),
@@ -83,6 +84,7 @@ function FormPage() {
 		phoneNumber: user.user.phoneNumber,
 		address: user.user.address,
 		size: user.user.size,
+		reason: user.user.reason,
 		organization: user.user.organization,
 		speakingTopic: user.user.speakingTopic,
 		isHalal: user.user.isHalal,
