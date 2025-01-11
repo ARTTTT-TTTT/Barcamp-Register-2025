@@ -1,14 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import PropTypes from "prop-types";
 import Swal from "sweetalert2";
+import * as XLSX from "xlsx";
 
 import { postConsole } from "../api/console";
+import { adminGetAllUsers } from "../api/admin";
 
 const formatDate = (date) => {
     return new Date(date).toISOString().split("T")[0]; // แปลงเป็น YYYY-MM-DD
 };
 
 function ConsoleCard({ Console }) {
+    const [usersLst, setUsersLst] = useState([]);
     const [isVoteEnabled, setIsVoteEnabled] = useState(Console.vote);
     const [startDate, setStartDate] = useState(Console.start_register ? formatDate(Console.start_register) : formatDate(new Date()));
     const [endDate, setEndDate] = useState(Console.end_register ? formatDate(Console.end_register) : formatDate(new Date()));
@@ -17,7 +20,15 @@ function ConsoleCard({ Console }) {
     const [prevEndDate, setPrevEndDate] = useState("");
     const [prevIsVoteEnabled, setPrevIsVoteEnabled] = useState(false);
 
-    
+    const fetch_user = async () => {
+        try {
+            let users = await adminGetAllUsers();
+            setUsersLst(users); // Ensure usersLst is always an array
+        } catch (error) {
+            console.error("Error fetching users:", error);
+            setUsersLst([]);
+        }
+    };
 
     const saveChanges = async () => {
         // เก็บข้อมูลก่อนหน้านี้เพื่อนำไปใช้หากกด Cancel
@@ -81,8 +92,33 @@ function ConsoleCard({ Console }) {
         setIsVoteEnabled(prevIsVoteEnabled);
     };
 
+    const saveToExcel = () => {
+        // กำหนดคอลัมน์และข้อมูล
+        const tableColumn = ["ชื่อ", "นามสกุล", "หัวข้อการพูด"];
+        const tableRows = [];
+
+        // เตรียมข้อมูลสำหรับตาราง
+        usersLst
+            .filter((user) => user.status !== "") // กรองเฉพาะผู้ใช้ที่ status ไม่ว่าง
+            .forEach((user) => {
+                const userData = [`${user.firstName}`, `${user.lastName}`, user.speakingTopic || "ไม่มีหัวข้อ"];
+                tableRows.push(userData);
+            });
+
+        // สร้างแผ่นงาน Excel
+        const ws = XLSX.utils.aoa_to_sheet([tableColumn, ...tableRows]); // aoa_to_sheet สร้างแผ่นงานจากอาเรย์ 2D
+        const wb = XLSX.utils.book_new(); // สร้าง Workbook ใหม่
+        XLSX.utils.book_append_sheet(wb, ws, "Users"); // เพิ่มแผ่นงานใน Workbook
+
+        // บันทึกไฟล์ Excel
+        XLSX.writeFile(wb, "register.xlsx");
+    };
+    useEffect(() => {
+        fetch_user();
+    }, []);
+
     return (
-        <div className="p-4 mt-3 bg-white w-full rounded-lg shadow-md relative">
+        <div className="p-4 mt-3 bg-white w-full rounded-lg shadow-md relative overflow-y-scroll max-h-[500px]">
             {/* Switch สำหรับ Vote */}
             <div className="flex justify-between items-center bg-gray-100 w-full rounded-lg p-2">
                 <label htmlFor="voteSwitch" className="mr-2 ">
@@ -135,13 +171,52 @@ function ConsoleCard({ Console }) {
             </div>
 
             {/* ปุ่ม Save และ Cancel */}
-            <div className="flex justify-end space-x-4 mt-4">
-                <button onClick={saveChanges} className="text-white bg-green-500 px-4 py-2 rounded-lg">
-                    Save
-                </button>
-                <button onClick={cancelChanges} className="text-white bg-gray-500 px-4 py-2 rounded-lg">
-                    Cancel
-                </button>
+            <div className="flex mt-4 justify-between items-center">
+                <div>
+                    <button onClick={saveToExcel} className="text-white bg-red-500 px-4 py-2 rounded-lg">
+                        Export Exel
+                    </button>
+                </div>
+                <div className="flex space-x-4">
+                    <button onClick={saveChanges} className="text-white bg-green-500 px-4 py-2 rounded-lg">
+                        Save
+                    </button>
+                    <button onClick={cancelChanges} className="text-white bg-gray-500 px-4 py-2 rounded-lg">
+                        Cancel
+                    </button>
+                </div>
+            </div>
+
+            {/* แสดง user ทุกคน */}
+            <div className="overflow-x-auto overflow-y-auto max-h-[500px] mt-4">
+                <table className="min-w-full border-collapse border border-gray-300">
+                    <thead>
+                        <tr className="bg-gray-100">
+                            <th className="border border-gray-300 px-4 py-2 text-left">Name</th>
+                            <th className="border border-gray-300 px-4 py-2 text-left">Speaking Topic</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {usersLst.length > 0 ? (
+                            usersLst
+                                .filter((user) => user.status !== "")
+                                .map((user, index) => (
+                                    <tr key={index} className={`${index % 2 === 0 ? "bg-white" : "bg-gray-50"}`}>
+                                        <td className="border border-gray-300 px-4 py-2">
+                                            {user.firstName} {user.lastName}
+                                        </td>
+                                        <td className="border border-gray-300 px-4 py-2">{user.speakingTopic || "No Topic"}</td>
+                                    </tr>
+                                ))
+                        ) : (
+                            <tr>
+                                <td colSpan="2" className="border border-gray-300 px-4 py-2 text-center text-gray-500">
+                                    No users found.
+                                </td>
+                            </tr>
+                        )}
+                    </tbody>
+                </table>
             </div>
         </div>
     );
