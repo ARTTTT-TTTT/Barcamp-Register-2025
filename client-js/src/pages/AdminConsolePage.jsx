@@ -175,7 +175,7 @@ function AdminConsolePage() {
                             </div>
                         )}
                         {btnFilter === "CONSOLE" && <ConsoleCard Console={Console} />}
-                        <div className="space-y-5 mt-3 w-full">
+                        <div className="space-y-5 mt-3 overflow-y-auto max-h-[500px] w-full">
                             {usersLst
                                 .filter((user) => user.firstName !== "")
                                 .filter((user) => user.status === btnFilter)
