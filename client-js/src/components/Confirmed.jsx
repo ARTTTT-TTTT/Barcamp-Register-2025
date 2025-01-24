@@ -51,8 +51,7 @@ function Confirmed({ user, Console }) {
     }, [user._id]);
 
     useEffect(() => {
-        // if (Console.vote === true && user.status === "CONFIRMED") {
-        if (user.status === "CONFIRMED") {
+        if (Console.vote === true && user.status === "CONFIRMED") {
             setVoteOpen(true);
         }
     }, [Console.vote, user.status]);
