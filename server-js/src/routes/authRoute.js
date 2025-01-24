@@ -7,8 +7,8 @@ const Console = require("../models/console");
 const config = require("../config");
 
 const CLIENT_URL = config.client_url;
-const SPECIAL_SECRET_URL = process.env.SPECIAL_SECRET_URL;
-const SPECIAL_SECRET_FORM_URL = process.env.SPECIAL_SECRET_FORM_URL;
+const SPECIAL_SECRET_URL = config.SPECIAL_SECRET_URL;
+const SPECIAL_SECRET_FORM_URL = config.SPECIAL_SECRET_FORM_URL;
 
 router.get("/login/success", (req, res) => {
     if (req.user) {

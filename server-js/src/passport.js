@@ -2,20 +2,16 @@ require("dotenv").config();
 
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 const passport = require("passport");
-
-const GOOGLE_CLIENT_REDIRECT_URI = process.env.GOOGLE_CLIENT_REDIRECT_URI;
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
-const GOOGLE_CLIENT_SECRET = process.env.GOOGLE_CLIENT_SECRET;
+const config = require("./config");
 
 // Strategy สำหรับการล็อกอินทั่วไป
 passport.use(
     "google-login",
     new GoogleStrategy(
         {
-            clientID: GOOGLE_CLIENT_ID,
-            clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: `${GOOGLE_CLIENT_REDIRECT_URI}/auth/google/callback`,
-            // callbackURL: "/auth/google/callback",
+            clientID: config.GOOGLE_CLIENT_ID,
+            clientSecret: config.GOOGLE_CLIENT_SECRET,
+            callbackURL: `${config.GOOGLE_CLIENT_REDIRECT_URI}/auth/google/callback`,
             proxy: true,
         },
         async (accessToken, refreshToken, profile, done) => {
@@ -30,10 +26,9 @@ passport.use(
     "google-special-register",
     new GoogleStrategy(
         {
-            clientID: GOOGLE_CLIENT_ID,
-            clientSecret: GOOGLE_CLIENT_SECRET,
-            callbackURL: `${GOOGLE_CLIENT_REDIRECT_URI}/auth/google/special-register/callback`,
-            // callbackURL: "/auth/google/special-register/callback",
+            clientID: config.GOOGLE_CLIENT_ID,
+            clientSecret: config.GOOGLE_CLIENT_SECRET,
+            callbackURL: `${config.GOOGLE_CLIENT_REDIRECT_URI}/auth/google/special-register/callback`,
             proxy: true,
         },
         async (accessToken, refreshToken, profile, done) => {

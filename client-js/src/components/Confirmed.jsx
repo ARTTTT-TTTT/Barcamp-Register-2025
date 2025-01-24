@@ -51,7 +51,8 @@ function Confirmed({ user, Console }) {
     }, [user._id]);
 
     useEffect(() => {
-        if (Console.vote === true && user.status === "CONFIRMED") {
+        // if (Console.vote === true && user.status === "CONFIRMED") {
+        if (user.status === "CONFIRMED") {
             setVoteOpen(true);
         }
     }, [Console.vote, user.status]);
@@ -88,7 +89,7 @@ function Confirmed({ user, Console }) {
                     <div className="p-4 w-full text-center bg-white rounded-xl text-green-500">
                         <p>สามารถเข้าสู่ระบบโหวตได้แล้วใน ขณะนี้</p>
                     </div>
-                    <button onClick={navigateVotePage} className="text-white bg-primary-500 p-2 rounded-lg w-52 mt-5">
+                    <button onClick={navigateVotePage} className="text-white bg-blue-500 p-2 rounded-lg w-52 mt-5">
                         Realtime Voting
                     </button>
                 </>
