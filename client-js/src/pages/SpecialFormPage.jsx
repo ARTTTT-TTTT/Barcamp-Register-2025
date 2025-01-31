@@ -197,7 +197,7 @@ function SpecialFormPage() {
         let new_data = data;
         new_data["email"] = user.infomation.emails[0].value;
         new_data["status"] = "CONFIRMED";
-        new_data["special"] = true;
+        new_data["isSpecial"] = true;
 
         let res = await saveForm(new_data);
 
