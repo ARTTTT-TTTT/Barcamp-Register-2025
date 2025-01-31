@@ -45,7 +45,13 @@ app.use("/api", express.static(__dirname));
 
 app.use(
     cors({
-        origin: ["http://localhost:3000", "http://localhost:3001", "http://localhost:4000", process.env.CLIENT_URL],
+        origin: [
+            "http://localhost:3000",
+            "http://localhost:3001",
+            "http://localhost:4000",
+            "https://vote.barcampsongkhla.org",
+            process.env.CLIENT_URL,
+        ],
         methods: ["GET", "POST", "PUT", "DELETE"],
         credentials: true,
     })

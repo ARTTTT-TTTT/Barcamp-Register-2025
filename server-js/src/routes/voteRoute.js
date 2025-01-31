@@ -74,6 +74,10 @@ router.post("/voted", async (req, res) => {
         }
         let status = false;
 
+        if (!Array.isArray(topic_selection.votes)) {
+            res.status(404).send({ message: "Topic vote not found." });
+        }
+
         if (await topic_selection.votes.includes(user)) {
             topic_selection.votes = await topic_selection.votes.filter((e) => e !== user);
             status = false;
